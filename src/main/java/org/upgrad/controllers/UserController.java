@@ -2,12 +2,14 @@ package org.upgrad.controllers;
 
 import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
+import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.upgrad.models.User;
+import org.upgrad.models.UserAuthToken;
 import org.upgrad.services.UserAuthTokenService;
 import org.upgrad.services.UserService;
 
@@ -44,9 +46,7 @@ public class UserController {
              return new ResponseEntity<>("Try any other contact number, this contact number has already been registered!",HttpStatus.BAD_REQUEST );
          }else {
 
-
               // Checks for valid email id -> x@x.co
-
                String EMAIL_PATTERN =
                      "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                              + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -135,44 +135,30 @@ public class UserController {
      * Authentication is required to access this endpoint, so accessToken is taken as request header to make sure user is authenticated.
      *
      */
-    @PutMapping("/user")
+    @PutMapping("")
     @CrossOrigin
-    public ResponseEntity<String> userUpdate(@RequestHeader String accessToken){
-     /*   if(userAuthTokenService.isUserLoggedIn(accessToken) == null){
+    public ResponseEntity<String> userUpdate(@RequestHeader String firstName , @RequestParam(required = false) String lastName , @RequestHeader String accessToken){
+
+        UserAuthToken usertoken =  userAuthTokenService.isUserLoggedIn(accessToken) ;
+        // Checking if user is logged in.
+        if(null == usertoken){
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
-        }
-        else if(userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()!=null){
+        } // checking if user is not logged out.
+        else if(null != userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()){
             return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
-        }  else{
-            userAuthTokenService.removeAccessToken(accessToken); */
-            return new ResponseEntity<>("You have logged out successfully!",HttpStatus.OK);
+        }
+        else {
+            // Updating user details.
+            if ( null != userService.updateUserDetails(firstName,lastName,usertoken.getUser().getId()) ) ;
+            {
+                // TODO : Response should contain user details not user string
+                User user =  userService.findUserId(usertoken.getUser().getId()) ;
+                return new ResponseEntity<>( user.toString(), HttpStatus.CREATED );
+            }
+        }
     }
 
 
 
-    /*
-    Update - “/api/user”
-
-It should be a PUT request.
-Access to this endpoint requires authentication.
-This endpoint must request the following values from the user:
-First name - String
-Last name (Optional)- String
-Access token - String
-
-If the user is not logged in and tries to access this endpoint,
- return the JSON response "Please Login first to access this endpoint!" with the corresponding HTTP status.
-
-If the user has already logged out and tries to log out again,
-return the JSON response “You have already logged out. Please Login first to access this endpoint!”
-with the corresponding HTTP status.
-
-Once the user has successfully logged in, update the first name and
-the last name of the user, then return the JSON response containing the updated
-user information with the corresponding HTTP status. You can get the user’s information,
-for which you need to change the names from the access token provided.
-
-Here is what the response should look like after changing the  firstname and lastname fields:
-     */
 
 }

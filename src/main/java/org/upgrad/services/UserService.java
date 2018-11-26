@@ -16,7 +16,13 @@ public interface UserService {
     // Finds User Details corresponding to contactNumber.
     User findUser(String contactNumber);
 
+    // Finds User Details corresponding to id.
+    User findUserId(Integer id);
+
     // Saves userDetails to users table.
     void addUserDetails(User newuser);
+
+    // UpdateUserDetails
+    Integer updateUserDetails(String firstname, String lastname, Integer id);
 
 }

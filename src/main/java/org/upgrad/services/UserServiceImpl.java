@@ -30,6 +30,11 @@ public class UserServiceImpl implements UserService{
         return userRepository.findUser(contactNumber);
     }
 
+    @Override
+    public User findUserId(Integer id) { return userRepository.findUserId(id); }
+
+
+
     // This method is used to add access token details in the database
     /*@Override
     public void addUserDetails(String firstNA, String accessToken) {
@@ -43,5 +48,12 @@ public class UserServiceImpl implements UserService{
         userRepository.addUserCredentials(newuser.getFirstName(), newuser.getLastName(), newuser.getEmail(),  newuser.getContactNumber(), newuser.getPassword());
     }
 
+    public Integer updateUserDetails(String firstname, String lastname, Integer id)
+    {
+        if(null == lastname)
+            return userRepository.updateFirstName(firstname,id);
+        else
+            return userRepository.updateDetails(firstname,lastname,id);
+    }
 
 }
