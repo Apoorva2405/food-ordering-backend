@@ -73,8 +73,6 @@ public class UserController {
              }
 
              // Save details in Database.
-
-
             String passwordsha = Hashing.sha256()
                 .hashString(password, Charsets.US_ASCII)
                 .toString();
@@ -82,11 +80,9 @@ public class UserController {
             User newuser = new User(firstName, lastName, contactNumber, email, passwordsha);
 
             userService.addUserDetails(newuser);
-
-
-        return new ResponseEntity<>(HttpStatus.OK);
+            String message =  "User with contact number " + contactNumber + " successfully registered!"  ;
+            return new ResponseEntity<>(message,HttpStatus.CREATED);
     }
-
 
     /*
     * This endpoint is used to login a user.
@@ -132,5 +128,51 @@ public class UserController {
             userAuthTokenService.removeAccessToken(accessToken);
             return new ResponseEntity<>("You have logged out successfully!",HttpStatus.OK);}
     }
+
+
+    /*
+     * This endpoint is used to update user details
+     * Authentication is required to access this endpoint, so accessToken is taken as request header to make sure user is authenticated.
+     *
+     */
+    @PutMapping("/user")
+    @CrossOrigin
+    public ResponseEntity<String> userUpdate(@RequestHeader String accessToken){
+     /*   if(userAuthTokenService.isUserLoggedIn(accessToken) == null){
+            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }
+        else if(userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()!=null){
+            return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }  else{
+            userAuthTokenService.removeAccessToken(accessToken); */
+            return new ResponseEntity<>("You have logged out successfully!",HttpStatus.OK);
+    }
+
+
+
+    /*
+    Update - “/api/user”
+
+It should be a PUT request.
+Access to this endpoint requires authentication.
+This endpoint must request the following values from the user:
+First name - String
+Last name (Optional)- String
+Access token - String
+
+If the user is not logged in and tries to access this endpoint,
+ return the JSON response "Please Login first to access this endpoint!" with the corresponding HTTP status.
+
+If the user has already logged out and tries to log out again,
+return the JSON response “You have already logged out. Please Login first to access this endpoint!”
+with the corresponding HTTP status.
+
+Once the user has successfully logged in, update the first name and
+the last name of the user, then return the JSON response containing the updated
+user information with the corresponding HTTP status. You can get the user’s information,
+for which you need to change the names from the access token provided.
+
+Here is what the response should look like after changing the  firstname and lastname fields:
+     */
 
 }

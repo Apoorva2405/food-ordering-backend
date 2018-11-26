@@ -13,7 +13,7 @@ public interface UserService {
     // Finds Password corresponding to contactNumber.
     String findUserPassword(String contactNumber);
 
-    // Finds User Details correcponding to contactNumber.
+    // Finds User Details corresponding to contactNumber.
     User findUser(String contactNumber);
 
     // Saves userDetails to users table.
