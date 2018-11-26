@@ -27,6 +27,67 @@ public class UserController {
     @Autowired
     private UserAuthTokenService userAuthTokenService;
 
+
+    /*
+     * This endpoint is used to signup a user.
+     * Param - First name , Last name (optional) , Email , Contact number , Password
+     */
+    @PostMapping("/signup")
+    @CrossOrigin
+    public ResponseEntity<?> signup( @RequestParam String firstName,@RequestParam(required = false) String lastName , @RequestParam String email, @RequestParam String contactNumber, @RequestParam String password){
+
+        // Finding if the user with corresponding contactNumber exists or not
+        User user = userService.findUser(contactNumber);
+
+         // If it exists, then send error
+         if ( user != null) {
+             return new ResponseEntity<>("Try any other contact number, this contact number has already been registered!",HttpStatus.BAD_REQUEST );
+         }else {
+
+
+              // Checks for valid email id -> x@x.co
+
+               String EMAIL_PATTERN =
+                     "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                             + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+             if ( ! email.matches(EMAIL_PATTERN) )
+                 return new ResponseEntity<>("Invalid email-id format!",HttpStatus.BAD_REQUEST );
+
+
+              // Checks for valid contactNumber.
+              if( ! (contactNumber.length() == 10  && contactNumber.matches("[0-9]+")))
+              {
+                  return new ResponseEntity<>("Invalid contact number!",HttpStatus.BAD_REQUEST );
+              }
+
+              // Checks for strong password
+              boolean hasUpper = false;
+              boolean hasDigit = false;
+              boolean specialChar = password.matches("[#@$%&*!^]+");
+
+             String passpattern = "(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}";
+
+             if ( ! password.matches(passpattern) )
+                 return new ResponseEntity<>("Weak password!",HttpStatus.BAD_REQUEST );
+             }
+
+             // Save details in Database.
+
+
+            String passwordsha = Hashing.sha256()
+                .hashString(password, Charsets.US_ASCII)
+                .toString();
+
+            User newuser = new User(firstName, lastName, contactNumber, email, passwordsha);
+
+            userService.addUserDetails(newuser);
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
     /*
     * This endpoint is used to login a user.
     * Here contact number and password has to be provided to match the credentials.

@@ -20,5 +20,12 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     @Query(nativeQuery = true,value = "SELECT * FROM USERS WHERE contact_number=?1")
     User findUser(String contactNumber);
+
+    // For adding user details in users table.
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value="INSERT INTO USERS (firstname,lastname,contact_number,email,password) VALUES (?1,?2,?3,?4,?5)")
+    void addUserCredentials(String fname, String lname, String contactnumber,String email, String password );
+
 }
 

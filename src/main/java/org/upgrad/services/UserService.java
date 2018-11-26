@@ -1,7 +1,6 @@
 package org.upgrad.services;
 
 import org.upgrad.models.User;
-import org.upgrad.models.UserAuthToken;
 
 import java.util.Optional;
 
@@ -11,7 +10,13 @@ import java.util.Optional;
  */
 public interface UserService {
 
+    // Finds Password corresponding to contactNumber.
     String findUserPassword(String contactNumber);
 
+    // Finds User Details correcponding to contactNumber.
     User findUser(String contactNumber);
+
+    // Saves userDetails to users table.
+    void addUserDetails(User newuser);
+
 }
