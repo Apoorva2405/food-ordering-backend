@@ -19,6 +19,11 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Query(nativeQuery = true,value="SELECT PASSWORD FROM USERS WHERE contact_number=?1")
     String findUserPassword(String contactNumber);
 
+    // Find password on bases of contactnumber.
+    @Query(nativeQuery = true,value="SELECT PASSWORD FROM USERS WHERE id=?1")
+    String findUserPasswordId(Integer id);
+
+
     // Find user details on bases of contactnumber.
     @Query(nativeQuery = true,value = "SELECT * FROM USERS WHERE contact_number=?1")
     User findUser(String contactNumber);
@@ -45,6 +50,11 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Query(nativeQuery = true,value="UPDATE USERS SET firstname =?1  WHERE id=?2")
     Integer updateFirstName( String firstname, Integer id);
 
+    // Method to update password for particular user.
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value="UPDATE USERS SET password =?1  WHERE id=?2")
+    Integer updatePassword( String password, Integer id);
 
 }
 

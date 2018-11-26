@@ -33,21 +33,18 @@ public class UserServiceImpl implements UserService{
     @Override
     public User findUserId(Integer id) { return userRepository.findUserId(id); }
 
+    @Override
+    public String findUserPasswordId(Integer id){ return userRepository.findUserPasswordId(id); }
 
+    @Override
+    public Integer updateUserPassword(String password, Integer id) { return userRepository.updatePassword(password,id);} ;
 
-    // This method is used to add access token details in the database
-    /*@Override
-    public void addUserDetails(String firstNA, String accessToken) {
-        Optional<User> user = userRepository.findById(userId);
-        Date date =new Date();
-        UserAuthToken userAuthToken = new UserAuthToken(user.get(),accessToken,date);
-        userAuthTokenRepository.save(userAuthToken);
-    } */
-
+    @Override
     public void addUserDetails(User newuser) {
         userRepository.addUserCredentials(newuser.getFirstName(), newuser.getLastName(), newuser.getEmail(),  newuser.getContactNumber(), newuser.getPassword());
     }
 
+    @Override
     public Integer updateUserDetails(String firstname, String lastname, Integer id)
     {
         if(null == lastname)
