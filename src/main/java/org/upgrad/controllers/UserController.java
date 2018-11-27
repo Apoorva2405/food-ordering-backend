@@ -140,54 +140,23 @@ public class UserController {
 
         UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
         // Checking if user is logged in.
-        if (null == usertoken) {
+        if (usertoken == null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         } // checking if user is not logged out.
-        else if (null != userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()) {
+        else if (userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() != null)  {
             return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         } else {
+
+            Integer userId =  userAuthTokenService.getUserId(accessToken) ;
             // Updating user details.
-            if (null != userService.updateUserDetails(firstName, lastName, usertoken.getUser().getId())) ;
+            if (userService.updateUser(firstName, lastName, userId) != null) ;
             {
                 // TODO : Response should contain user details not user string
-                User user = userService.findUserId(usertoken.getUser().getId());
+                User user = userService.findUserId(userId);
                 return new ResponseEntity<>(user.toString(), HttpStatus.CREATED);
             }
         }
     }
-
-
-/*
-    It should be a PUT request.
-
-    Access to this endpoint requires authentication.
-
-    This endpoint must request the following values from the user:
-
-    Old password - String
-
-    New password - String
-
-    Access token - String
-
-    If the user is not logged in and tries to access this endpoint,
-     return the JSON response "Please Login first to access this endpoint!" with the corresponding HTTP status.
-
-    If the user has already logged out and tries to log out again,
-    return the JSON response “You have already logged out. Please Login first to access this endpoint!”
-    with the corresponding HTTP status.
-
-    If the old password entered by the user does not match the old password in the database,
-     return the JSON response “Your password did not match your old password!” with the corresponding HTTP status.
-
-    If the new password provided by the user is not strong, i.e., it does not have at
-    least eight characters and does not contain at least one digit, one uppercase letter, and one of the
-    following characters [#@$%&*!^] , return the JSON response "Weak password!" with the corresponding HTTP status.
-
-    If the user is logged in and the old password matches the password present in the database,
-    update the password in the database as the new password and return the JSON response
-    "Password updated successfully!" with the corresponding HTTP status.
-*/
 
     /*
      * This endpoint is used to update user details
@@ -225,14 +194,17 @@ public class UserController {
                         .hashString(newpassword, Charsets.US_ASCII)
                         .toString();
 
-                if (null != userService.updateUserPassword(newpasswordsha, usertoken.getUser().getId()))
+                Integer userId =  userAuthTokenService.getUserId(accessToken) ;
+                if (null != userService.updateUserPassword(newpasswordsha, userId))
                     flag = true;
             }
+
+            return new ResponseEntity<>("Password updated successfully!", HttpStatus.OK);
         }
 
-        if (flag == true) return new ResponseEntity<>("Password updated successfully!", HttpStatus.OK);
-        else
-        return new ResponseEntity<>("Not success", HttpStatus.BAD_REQUEST);
+     //   if (flag == true) return new ResponseEntity<>("Password updated successfully!", HttpStatus.OK);
+      //  else
+      //  return new ResponseEntity<>("Not success", HttpStatus.BAD_REQUEST);
     }
 }
 
