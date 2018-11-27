@@ -33,9 +33,11 @@ public class User {
     @JsonIgnore
     private String password;
 
+    // Default Constructor
     public User(){
     }
 
+    // Parameterized Constructor
     public User(String firstName, String lastName, String email, String contactNumber, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,6 +46,9 @@ public class User {
         this.password = password;
     }
 
+    /*
+        Getters & Setters
+     */
     public Integer getId() {
         return id;
     }
