@@ -14,7 +14,7 @@ import org.upgrad.services.UserAuthTokenService;
 import org.upgrad.services.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/address")
 public class AddressController {
 
     @Autowired
@@ -51,7 +51,7 @@ public class AddressController {
      * This endpoint is used to signup a user.
      * Param - First name , Last name (optional) , Email , Contact number , Password
      */
-    @PostMapping("/address")
+    @PostMapping("")
     @CrossOrigin
     public ResponseEntity<?> address(@RequestParam String flatBuildingNumber, @RequestParam String locality, @RequestParam String city, @RequestParam Integer state_id, @RequestParam String zip, @RequestParam(required = false) String type , @RequestParam String accesstoken) {
 
@@ -67,8 +67,13 @@ public class AddressController {
 
             if (!(zip.length() == 6 && zip.matches("[0-9]+"))) {
                 return new ResponseEntity<>("Invalid zip code!", HttpStatus.BAD_REQUEST);
-
             }
+            System.out.println(addressService.isValidState(state_id) );
+
+            if( addressService.isValidState(state_id) == null) {
+                return new ResponseEntity<>("No state by this state id!", HttpStatus.BAD_REQUEST);
+            }
+
             // TODO : State check from
         }
 
