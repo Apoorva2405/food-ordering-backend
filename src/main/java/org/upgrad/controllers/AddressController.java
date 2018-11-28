@@ -71,21 +71,19 @@ public class AddressController {
                 {
 
                     int addressId  = addressService.countAddress() + 1 ;
-                    String type1 = "Temp" ;
+                    String type1 = "temp" ;
                     // Save data in address table.
                     Address address = new Address(addressId ,flatBuildingNumber, locality, city, zip, state_id);
-                    if ( addressService.addAddress(address)  == 1 )
-                    {
-                        if ( type != "null" )
+                    addressService.addAddress(address);
+
+                    // Setting value of type parameter
+                        if ( type !=null )
                             type1 = type ;
+
+                        // Save data in userAddress table
                         addressService.addUserAddress(type1, userId, addressId) ;
-                    }
 
-                    System.out.println("address" +  addressId) ;
-
-
-
-                    message ="Success" ;
+                    message ="Address has been saved successfully!" ;
                     httpStatus = HttpStatus.CREATED ;
                 }
             } else {
@@ -95,7 +93,5 @@ public class AddressController {
         }
         return new ResponseEntity<>(message , httpStatus);
     }
-
-
-
+    
 }
