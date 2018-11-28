@@ -20,7 +20,7 @@
 //
 //import java.util.List;
 //
-//import static java.util.Collections.singletonList;
+//import static java.util.Collections.single/*/**/*/tonList;
 //import static org.assertj.core.util.DateUtil.now;
 //import static org.hamcrest.Matchers.containsString;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
