@@ -1,14 +1,11 @@
 package org.upgrad.repositories;
 
-
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.upgrad.models.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.upgrad.models.UserAuthToken;
 
 // This repository interface is responsible for the interaction between the user service with the user database
 

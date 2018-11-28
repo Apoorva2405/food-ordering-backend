@@ -2,7 +2,6 @@ package org.upgrad.controllers;
 
 import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
-import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,8 +15,6 @@ import org.upgrad.services.UserService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/user")
@@ -28,7 +25,6 @@ public class UserController {
 
     @Autowired
     private UserAuthTokenService userAuthTokenService;
-
 
     /*
      * This endpoint is used to signup a user.
@@ -53,7 +49,6 @@ public class UserController {
 
             if (!email.matches(EMAIL_PATTERN))
                 return new ResponseEntity<>("Invalid email-id format!", HttpStatus.BAD_REQUEST);
-
 
             // Checks for valid contactNumber.
             if (!(contactNumber.length() == 10 && contactNumber.matches("[0-9]+"))) {

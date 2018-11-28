@@ -4,12 +4,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.upgrad.models.States;
-import org.upgrad.models.UserAuthToken;
 
 @Repository
-public interface StateRepository extends CrudRepository<UserAuthToken, Integer> {
+public interface StateRepository extends CrudRepository<States, Integer> {
 
-    @Query(nativeQuery = true,value = "SELECT * FROM STATES WHERE id=?1")
-    States isValidState(Integer id);
+    /*
+        This selects state Name for the state_id.
+     */
+    @Query(nativeQuery = true,value = "SELECT state_name FROM STATES WHERE id=?1")
+    String isValidState(Integer id);
+
+
 
 }

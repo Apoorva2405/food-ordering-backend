@@ -37,7 +37,8 @@ public class Address {
     }
 
     // Parameterized Constructor
-    public Address(String flat_buil_number, String locality, String city, String zipcode, Integer state_id) {
+    public Address(Integer id ,String flat_buil_number, String locality, String city, String zipcode, Integer state_id) {
+        this.id = id ;
         this.flat_buil_number = flat_buil_number ;
         this.city = city ;
         this.locality = locality ;
