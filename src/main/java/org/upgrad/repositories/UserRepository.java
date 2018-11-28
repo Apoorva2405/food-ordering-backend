@@ -39,13 +39,13 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Transactional
     @Modifying
     @Query(nativeQuery = true,value="UPDATE USERS SET firstname =?1 , lastname=?2  WHERE id=?3")
-    User updateDetails( String firstname, String lastname, Integer id);
+    Integer updateDetails( String firstname, String lastname, Integer id);
 
     // Method to update firstname for particular user.
     @Transactional
     @Modifying
     @Query(nativeQuery = true,value="UPDATE USERS SET firstname =?1  WHERE id=?2")
-    User updateFirstName( String firstname, Integer id);
+    Integer updateFirstName( String firstname, Integer id);
 
     // Method to update password for particular user.
     @Transactional

@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User updateUser(String firstname, String lastname, Integer id)
+    public Integer updateUser(String firstname, String lastname, Integer id)
     {
         if(null == lastname)
             return userRepository.updateFirstName(firstname,id);

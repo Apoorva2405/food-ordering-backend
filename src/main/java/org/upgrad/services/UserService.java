@@ -26,7 +26,7 @@ public interface UserService {
     void addUserDetails(User newuser);
 
     // UpdateUserDetails
-    User updateUser(String firstname, String lastname, Integer id);
+    Integer updateUser(String firstname, String lastname, Integer id);
 
     // UpdatePassword
     Integer updateUserPassword(String password, Integer id);
