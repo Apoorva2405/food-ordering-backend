@@ -24,7 +24,7 @@ public class AddressController {
 
     @Autowired
     private UserAuthTokenService userAuthTokenService;
-    
+
 
     /*
      * This endpoint is used to signup a user.
@@ -81,6 +81,74 @@ public class AddressController {
             }
         }
         return new ResponseEntity<>(message , httpStatus);
+    }
+
+
+    @GetMapping("/user")
+    @CrossOrigin
+    public ResponseEntity<?> getAllPermanentAddress(@RequestParam String accesstoken) {
+
+        String message = "" ;
+        HttpStatus httpStatus = HttpStatus.OK ;
+
+        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accesstoken);
+        // Checking if user is logged in.
+        if (usertoken == null) {
+            message = "Please Login first to access this endpoint!" ;
+            httpStatus =  HttpStatus.UNAUTHORIZED ;
+        } // checking if user is not logged out.
+        else if (userAuthTokenService.isUserLoggedIn(accesstoken).getLogoutAt() != null) {
+            message = "You have already logged out. Please Login first to access this endpoint!" ;
+            httpStatus =  HttpStatus.UNAUTHORIZED ;
+        } else {
+            Integer userId = userAuthTokenService.getUserId(accesstoken);
+
+
+
+        }
+
+
+        return new ResponseEntity<>(message , httpStatus);
+    }
+
+    /*
+    Get All Permanent Addresses - “/api/address/user”
+
+    It should be a GET request.
+
+    Access to this endpoint requires authentication.
+
+    This endpoint must request the following value from the user:
+
+        Access token - String
+
+    If the user is not logged in and tries to access this endpoint,
+    return the JSON response "Please Login first to access this endpoint!" with the corresponding HTTP status.
+
+    If the user has already logged out and tries to log out again,
+    return the JSON response “You have already logged out. Please
+     Login first to access this endpoint!” with the corresponding HTTP status.
+
+    If the user has logged in successfully, and:
+
+        If this user has not provided a  permanent address,
+        return the JSON response "No permanent address found!" with the corresponding HTTP status.
+
+        If there are some permanent addresses saved for
+         this user in the database, retrieve all the
+          permanent addresses and display the response in a JSON format with the corresponding HTTP status.
+
+        Here is a link to a sample JSON response.
+     */
+
+
+    /*
+     This is used to get details of all states.
+     */
+    @GetMapping("/user")
+    @CrossOrigin
+    public ResponseEntity<?> getAllPermanentAddress() {
+        return new ResponseEntity<>( addressService.getAllStates() , HttpStatus.OK);
     }
 
 }

@@ -2,6 +2,7 @@ package org.upgrad.services;
 
 import org.springframework.stereotype.Service;
 import org.upgrad.models.Address;
+import org.upgrad.models.States;
 import org.upgrad.repositories.StateRepository;
 import org.upgrad.repositories.AddressRepository;
 
@@ -45,4 +46,8 @@ public class AddressServiceImpl implements AddressService{
         return addressRepository.addUserAddress(temp, user_id, address_id);
     }
 
+    @Override
+    public Iterable<States> getAllStates() {
+        return stateRepository.getAllStates();
+    }
 }

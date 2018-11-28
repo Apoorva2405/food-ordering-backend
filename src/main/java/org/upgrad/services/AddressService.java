@@ -2,7 +2,6 @@ package org.upgrad.services;
 
 import org.upgrad.models.Address;
 import org.upgrad.models.States;
-import org.upgrad.models.User;
 
 public interface AddressService {
 
@@ -17,5 +16,5 @@ public interface AddressService {
 
     Integer addUserAddress(String temp, Integer user_id, Integer address_id) ;
 
-
+    Iterable<States> getAllStates() ;
 }
