@@ -24,18 +24,7 @@ public class AddressController {
 
     @Autowired
     private UserAuthTokenService userAuthTokenService;
-
-
-/*
-
-
-    If the user has logged in successfully, add the complete address in the database, then return the
-    JSON response "Address has been saved successfully!" with the corresponding HTTP status code 201.
-
-    Also, the user table is connected to the address table by the user_address table. So, add data to that table accordingly.
- */
-
-
+    
 
     /*
      * This endpoint is used to signup a user.
