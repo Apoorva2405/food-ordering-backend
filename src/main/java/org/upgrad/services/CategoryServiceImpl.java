@@ -26,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService{
     public Category getCategory(String categoryName){
 
         return categoryRepository.getCategoryByName(categoryName);
-    }
+}
 
     @Override
     public Integer getCategoryCount(String categoryName){
