@@ -66,203 +66,203 @@ public class AddressControllerTest {
                 .andExpect(content().string(containsString("Please Login first to access this endpoint!")));
     }
 
-//    @Test
-//    public void saveAddressWithLoggedOutUser() throws Exception{
-//        String flatBuilNo = "123/32 Nishuvi Building";
-//        String locality = "Worli";
-//        String city = "Mumbai";
-//        String zipcode = "120018";
-//        String type = "temp";
-//        String stateId = "20";
-//        String accessToken = "#############################";
-//        UserAuthToken userAuthToken = new UserAuthToken();
-//        userAuthToken.setLogoutAt(now());
-//        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
-//        String url = "/address";
-//        mvc.perform(post(url)
-//                .param("flatBuilNo", flatBuilNo)
-//                .param("locality", locality)
-//                .param("city", city)
-//                .param("zipcode", zipcode)
-//                .param("type", type)
-//                .param("stateId", stateId)
-//                .header("accessToken", accessToken))
-//                .andExpect(status().is4xxClientError())
-//                .andExpect(content().string(containsString("You have already logged out. Please Login first to access this endpoint!")));
-//    }
-//
-//    @Test
-//    public void saveAddressWithInvalidZipcode() throws Exception{
-//        String flatBuilNo = "123/32 Nishuvi Building";
-//        String locality = "Worli";
-//        String city = "Mumbai";
-//        String zipcode = "12001r";
-//        String type = "temp";
-//        String stateId = "20";
-//        String accessToken = "#############################";
-//        UserAuthToken userAuthToken = new UserAuthToken();
-//        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
-//        String url = "/address";
-//        mvc.perform(post(url)
-//                .param("flatBuilNo", flatBuilNo)
-//                .param("locality", locality)
-//                .param("city", city)
-//                .param("zipcode", zipcode)
-//                .param("type", type)
-//                .param("stateId", stateId)
-//                .header("accessToken", accessToken))
-//                .andExpect(status().is4xxClientError())
-//                .andExpect(content().string(containsString("Invalid zipcode!")));
-//    }
-//
-//    @Test
-//    public void saveAddress() throws Exception{
-//        String flatBuilNo = "123/32 Nishuvi Building";
-//        String locality = "Worli";
-//        String city = "Mumbai";
-//        String zipcode = "140018";
-//        String type = "temp";
-//        String stateId = "20";
-//        String accessToken = "#############################";
-//        UserAuthToken userAuthToken = new UserAuthToken();
-//        Integer userId = 1;
-//        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
-//        Mockito.when(userAuthTokenService.getUserId(accessToken)).thenReturn(userId);
-//        String url = "/address";
-//        mvc.perform(post(url)
-//                .param("flatBuilNo", flatBuilNo)
-//                .param("locality", locality)
-//                .param("city", city)
-//                .param("zipcode", zipcode)
-//                .param("type", type)
-//                .param("stateId", stateId)
-//                .header("accessToken", accessToken))
-//                .andExpect(status().is2xxSuccessful())
-//                .andExpect(content().string(containsString("Address has been saved successfully!")));
-//    }
-//
-//    @Test
-//    public void updateAddressWithoutLogin() throws Exception{
-//        String flatBuilNo = "123/32 Nishuvi Building";
-//        String locality = "Worli";
-//        String city = "Mumbai";
-//        String zipcode = "120018";
-//        String type = "temp";
-//        String stateId = "20";
-//        String accessToken = "#############################";
-//        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(null);
-//        String url = "/address/1";
-//        mvc.perform(put(url)
-//                .param("flatBuilNo", flatBuilNo)
-//                .param("locality", locality)
-//                .param("city", city)
-//                .param("zipcode", zipcode)
-//                .param("type", type)
-//                .param("stateId", stateId)
-//                .header("accessToken", accessToken))
-//                .andExpect(status().is4xxClientError())
-//                .andExpect(content().string(containsString("Please Login first to access this endpoint!")));
-//    }
-//
-//    @Test
-//    public void updateAddressWithLoggedOutUser() throws Exception{
-//        String flatBuilNo = "123/32 Nishuvi Building";
-//        String locality = "Worli";
-//        String city = "Mumbai";
-//        String zipcode = "120018";
-//        String type = "temp";
-//        String stateId = "20";
-//        String accessToken = "#############################";
-//        UserAuthToken userAuthToken = new UserAuthToken();
-//        userAuthToken.setLogoutAt(now());
-//        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
-//        String url = "/address/1";
-//        mvc.perform(put(url)
-//                .param("flatBuilNo", flatBuilNo)
-//                .param("locality", locality)
-//                .param("city", city)
-//                .param("zipcode", zipcode)
-//                .param("type", type)
-//                .param("stateId", stateId)
-//                .header("accessToken", accessToken))
-//                .andExpect(status().is4xxClientError())
-//                .andExpect(content().string(containsString("You have already logged out. Please Login first to access this endpoint!")));
-//    }
-//
-//    @Test
-//    public void updateAddressWithInvalidZipcode() throws Exception{
-//        String flatBuilNo = "123/32 Nishuvi Building";
-//        String locality = "Worli";
-//        String city = "Mumbai";
-//        String zipcode = "12001r";
-//        String type = "temp";
-//        String stateId = "20";
-//        String accessToken = "#############################";
-//        UserAuthToken userAuthToken = new UserAuthToken();
-//        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
-//        String url = "/address/1";
-//        mvc.perform(put(url)
-//                .param("flatBuilNo", flatBuilNo)
-//                .param("locality", locality)
-//                .param("city", city)
-//                .param("zipcode", zipcode)
-//                .param("type", type)
-//                .param("stateId", stateId)
-//                .header("accessToken", accessToken))
-//                .andExpect(status().is4xxClientError())
-//                .andExpect(content().string(containsString("Invalid zipcode!")));
-//    }
-//
-//    @Test
-//    public void updateAddressWithInvalifAddressId() throws Exception{
-//        String flatBuilNo = "123/32 Nishuvi Building";
-//        String locality = "Worli";
-//        String city = "Mumbai";
-//        String zipcode = "140018";
-//        String type = "temp";
-//        String stateId = "20";
-//        String accessToken = "#############################";
-//        UserAuthToken userAuthToken = new UserAuthToken();
-//        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
-//        Mockito.when(addressService.getAddress(2)).thenReturn(Boolean.FALSE);
-//        String url = "/address/2";
-//        mvc.perform(put(url)
-//                .param("flatBuilNo", flatBuilNo)
-//                .param("locality", locality)
-//                .param("city", city)
-//                .param("zipcode", zipcode)
-//                .param("type", type)
-//                .param("stateId", stateId)
-//                .header("accessToken", accessToken))
-//                .andExpect(status().is4xxClientError())
-//                .andExpect(content().string(containsString("No address with this address id!")));
-//    }
-//
-//    @Test
-//    public void updateAddress() throws Exception{
-//        String flatBuilNo = "123/32 Nishuvi Building";
-//        String locality = "Worli";
-//        String city = "Mumbai";
-//        String zipcode = "140018";
-//        String type = "temp";
-//        String stateId = "20";
-//        String accessToken = "#############################";
-//        UserAuthToken userAuthToken = new UserAuthToken();
-//        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
-//        Mockito.when(addressService.getAddress(2)).thenReturn(Boolean.TRUE);
-//        String url = "/address/2";
-//        mvc.perform(put(url)
-//                .param("flatBuilNo", flatBuilNo)
-//                .param("locality", locality)
-//                .param("city", city)
-//                .param("zipcode", zipcode)
-//                .param("type", type)
-//                .param("stateId", stateId)
-//                .header("accessToken", accessToken))
-//                .andExpect(status().is2xxSuccessful())
-//                .andExpect(content().string(containsString("Address has been updated successfully!")));
-//    }
-//
+    @Test
+    public void saveAddressWithLoggedOutUser() throws Exception{
+        String flatBuilNo = "123/32 Nishuvi Building";
+        String locality = "Worli";
+        String city = "Mumbai";
+        String zipcode = "120018";
+        String type = "temp";
+        String stateId = "20";
+        String accessToken = "#############################";
+        UserAuthToken userAuthToken = new UserAuthToken();
+        userAuthToken.setLogoutAt(now());
+        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
+        String url = "/address";
+        mvc.perform(post(url)
+                .param("flatBuilNo", flatBuilNo)
+                .param("locality", locality)
+                .param("city", city)
+                .param("zipcode", zipcode)
+                .param("type", type)
+                .param("stateId", stateId)
+                .header("accessToken", accessToken))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string(containsString("You have already logged out. Please Login first to access this endpoint!")));
+    }
+
+    @Test
+    public void saveAddressWithInvalidZipcode() throws Exception{
+        String flatBuilNo = "123/32 Nishuvi Building";
+        String locality = "Worli";
+        String city = "Mumbai";
+        String zipcode = "12001r";
+        String type = "temp";
+        String stateId = "20";
+        String accessToken = "#############################";
+        UserAuthToken userAuthToken = new UserAuthToken();
+        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
+        String url = "/address";
+           mvc.perform(post(url)
+                .param("flatBuilNo", flatBuilNo)
+                .param("locality", locality)
+                .param("city", city)
+                .param("zipcode", zipcode)
+                .param("type", type)
+                .param("stateId", stateId)
+                .header("accessToken", accessToken))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string(containsString("Invalid zipcode!")));
+    }
+
+    @Test
+    public void saveAddress() throws Exception{
+        String flatBuilNo = "123/32 Nishuvi Building";
+        String locality = "Worli";
+        String city = "Mumbai";
+        String zipcode = "140018";
+        String type = "temp";
+        String stateId = "20";
+        String accessToken = "#############################";
+        UserAuthToken userAuthToken = new UserAuthToken();
+        Integer userId = 1;
+        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
+        Mockito.when(userAuthTokenService.getUserId(accessToken)).thenReturn(userId);
+        String url = "/address";
+        mvc.perform(post(url)
+                .param("flatBuilNo", flatBuilNo)
+                .param("locality", locality)
+                .param("city", city)
+                .param("zipcode", zipcode)
+                .param("type", type)
+                .param("stateId", stateId)
+                .header("accessToken", accessToken))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().string(containsString("Address has been saved successfully!")));
+    }
+
+    @Test
+    public void updateAddressWithoutLogin() throws Exception{
+        String flatBuilNo = "123/32 Nishuvi Building";
+        String locality = "Worli";
+        String city = "Mumbai";
+        String zipcode = "120018";
+        String type = "temp";
+        String stateId = "20";
+        String accessToken = "#############################";
+        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(null);
+        String url = "/address/1";
+        mvc.perform(put(url)
+                .param("flatBuilNo", flatBuilNo)
+                .param("locality", locality)
+                .param("city", city)
+                .param("zipcode", zipcode)
+                .param("type", type)
+                .param("stateId", stateId)
+                .header("accessToken", accessToken))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string(containsString("Please Login first to access this endpoint!")));
+    }
+
+    @Test
+    public void updateAddressWithLoggedOutUser() throws Exception{
+        String flatBuilNo = "123/32 Nishuvi Building";
+        String locality = "Worli";
+        String city = "Mumbai";
+        String zipcode = "120018";
+        String type = "temp";
+        String stateId = "20";
+        String accessToken = "#############################";
+        UserAuthToken userAuthToken = new UserAuthToken();
+        userAuthToken.setLogoutAt(now());
+        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
+        String url = "/address/1";
+        mvc.perform(put(url)
+                .param("flatBuilNo", flatBuilNo)
+                .param("locality", locality)
+                .param("city", city)
+                .param("zipcode", zipcode)
+                .param("type", type)
+                .param("stateId", stateId)
+                .header("accessToken", accessToken))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string(containsString("You have already logged out. Please Login first to access this endpoint!")));
+    }
+
+    @Test
+    public void updateAddressWithInvalidZipcode() throws Exception{
+        String flatBuilNo = "123/32 Nishuvi Building";
+        String locality = "Worli";
+        String city = "Mumbai";
+        String zipcode = "12001r";
+        String type = "temp";
+        String stateId = "20";
+        String accessToken = "#############################";
+        UserAuthToken userAuthToken = new UserAuthToken();
+        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
+        String url = "/address/1";
+        mvc.perform(put(url)
+                .param("flatBuilNo", flatBuilNo)
+                .param("locality", locality)
+                .param("city", city)
+                .param("zipcode", zipcode)
+                .param("type", type)
+                .param("stateId", stateId)
+                .header("accessToken", accessToken))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string(containsString("Invalid zipcode!")));
+    }
+
+   /* @Test
+    public void updateAddressWithInvalifAddressId() throws Exception{
+        String flatBuilNo = "123/32 Nishuvi Building";
+        String locality = "Worli";
+        String city = "Mumbai";
+        String zipcode = "140018";
+        String type = "temp";
+        String stateId = "20";
+        String accessToken = "#############################";
+        UserAuthToken userAuthToken = new UserAuthToken();
+        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
+        Mockito.when(addressService.getAddress(2)).thenReturn(Boolean.FALSE);
+        String url = "/address/2";
+        mvc.perform(put(url)
+                .param("flatBuilNo", flatBuilNo)
+                .param("locality", locality)
+                .param("city", city)
+                .param("zipcode", zipcode)
+                .param("type", type)
+                .param("stateId", stateId)
+                .header("accessToken", accessToken))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string(containsString("No address with this address id!")));
+    }  */
+
+ /*    @Test
+    public void updateAddress() throws Exception{
+        String flatBuilNo = "123/32 Nishuvi Building";
+        String locality = "Worli";
+        String city = "Mumbai";
+        String zipcode = "140018";
+        String type = "temp";
+        String stateId = "20";
+        String accessToken = "#############################";
+        UserAuthToken userAuthToken = new UserAuthToken();
+        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
+        Mockito.when(addressService.getAddress(2)).thenReturn(Boolean.TRUE);
+        String url = "/address/2";
+        mvc.perform(put(url)
+                .param("flatBuilNo", flatBuilNo)
+                .param("locality", locality)
+                .param("city", city)
+                .param("zipcode", zipcode)
+                .param("type", type)
+                .param("stateId", stateId)
+                .header("accessToken", accessToken))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().string(containsString("Address has been updated successfully!")));
+   } */
+ //
 //    @Test
 //    public void getAddressesWithoutLogin() throws Exception{
 //        String accessToken = "#############################";

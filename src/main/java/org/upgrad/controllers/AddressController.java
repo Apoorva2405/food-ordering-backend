@@ -26,7 +26,7 @@ public class AddressController {
      */
     @PostMapping("")
     @CrossOrigin
-    public ResponseEntity<?> address(@RequestParam String flatBuilNo, @RequestParam String locality, @RequestParam String city, @RequestParam Integer stateId, @RequestParam String zipcode, @RequestParam(required = false) String type , @RequestParam String accessToken) {
+    public ResponseEntity<?> address(@RequestParam String flatBuilNo, @RequestParam String locality, @RequestParam String city, @RequestParam Integer stateId, @RequestParam String zipcode, @RequestParam(required = false) String type , @RequestHeader String accessToken) {
 
         String message = "" ;
         HttpStatus httpStatus = HttpStatus.OK ;
@@ -69,7 +69,7 @@ public class AddressController {
                     httpStatus = HttpStatus.CREATED ;
                 }
             } else {
-                message = "Invalid zip code!" ;
+                message = "Invalid zipcode!" ;
                 httpStatus = HttpStatus.BAD_REQUEST ;
             }
         }
@@ -81,7 +81,7 @@ public class AddressController {
     */
     @PutMapping("/{addressId}")
     @CrossOrigin
-    public ResponseEntity<?> updateAddressById(@PathVariable Integer addressId , @RequestParam(required = false) String flatBuildingNumber , @RequestParam(required = false) String locality , @RequestParam(required = false) String city , @RequestParam(required = false) String zipcode , @RequestParam(required = false) Integer state_id , @RequestParam String accesstoken) {
+    public ResponseEntity<?> updateAddressById(@PathVariable Integer addressId , @RequestParam(required = false) String flatBuildingNumber , @RequestParam(required = false) String locality , @RequestParam(required = false) String city , @RequestParam(required = false) String zipcode , @RequestParam(required = false) Integer state_id , @RequestHeader String accesstoken) {
 
         String message = "" ;
         HttpStatus httpStatus = HttpStatus.OK ;
@@ -103,7 +103,7 @@ public class AddressController {
             // Zipcode Validation check
             if (zipcode != null ){
                 if (! ( zipcode.length() == 6 && zipcode.matches("[0-9]+") )) {
-                    message = "Invalid zip code!";
+                    message = "Invalid zipcode!";
                     httpStatus = HttpStatus.BAD_REQUEST;
                 }
             }
@@ -160,7 +160,7 @@ public class AddressController {
      */
     @DeleteMapping("/{addressId}")
     @CrossOrigin
-    public ResponseEntity<?> deleteAddressById(@PathVariable Integer addressId , @RequestParam String accesstoken) {
+    public ResponseEntity<?> deleteAddressById(@PathVariable Integer addressId , @RequestHeader String accesstoken) {
         System.out.println("add: " + addressId);
         System.out.println("aT: " + accesstoken);
 
