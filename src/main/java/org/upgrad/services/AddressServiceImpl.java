@@ -50,4 +50,14 @@ public class AddressServiceImpl implements AddressService{
     public Iterable<States> getAllStates() {
         return stateRepository.getAllStates();
     }
+
+    @Override
+    public Address getaddressById( Integer addressId) { return addressRepository.findAddressById(addressId) ;}
+
+    @Override
+    public Integer updateAddressById (String flat_build_num , String locality, String city, String zipcode , Integer state_id , Integer id)
+    {
+        return addressRepository.updateAddressById(flat_build_num,locality,city,zipcode,state_id,id);
+    }
+
 }

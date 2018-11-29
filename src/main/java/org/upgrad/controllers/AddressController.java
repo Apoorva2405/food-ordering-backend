@@ -83,8 +83,89 @@ public class AddressController {
         return new ResponseEntity<>(message , httpStatus);
     }
 
+    /*
+    This is used to update address corresponding to addressId
+    */
+    @PutMapping("/{addressId}")
+    @CrossOrigin
+    public ResponseEntity<?> updateAddressById(@PathVariable Integer addressId , @RequestParam(required = false) String flatBuildingNumber , @RequestParam(required = false) String locality , @RequestParam(required = false) String city , @RequestParam(required = false) String zipcode , @RequestParam(required = false) Integer state_id , @RequestParam String accesstoken) {
+        System.out.println("add: " + addressId ) ;
+        System.out.println("aT: " + accesstoken) ;
 
-    @GetMapping("/user")
+        String message = "" ;
+        HttpStatus httpStatus = HttpStatus.OK ;
+
+        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accesstoken);
+
+        System.out.println(" USER TOKEN "+ usertoken) ;
+        // Checking if user is logged in.
+        if (usertoken == null) {
+            message = "Please Login first to access this endpoint!" ;
+            httpStatus =  HttpStatus.UNAUTHORIZED ;
+        } // checking if user is not logged out.
+        else if (userAuthTokenService.isUserLoggedIn(accesstoken).getLogoutAt() != null) {
+            message = "You have already logged out. Please Login first to access this endpoint!" ;
+            httpStatus =  HttpStatus.UNAUTHORIZED ;
+        } else {
+            Integer userId = userAuthTokenService.getUserId(accesstoken);
+
+            // Zipcode Validation check
+            if (zipcode != null ){
+                if (! ( zipcode.length() == 6 && zipcode.matches("[0-9]+") )) {
+                    message = "Invalid zip code!";
+                    httpStatus = HttpStatus.BAD_REQUEST;
+                }
+            }
+
+            // Valid State check
+            boolean validState  = false ;
+            if (state_id != null) {
+                if(  addressService.isValidState(state_id) == null) {
+                    message = "No state by this state id!";
+                    httpStatus = HttpStatus.BAD_REQUEST;
+                }
+                else
+                    validState = true ;
+            }
+
+            if (validState == true) {
+
+                // Check if address exists for supplied addressId
+                Address add = addressService.getaddressById(addressId);
+
+                if (add == null) {
+                    message = "No address with this address id!";
+                    httpStatus = HttpStatus.BAD_REQUEST;
+                } else {
+                    if (flatBuildingNumber == null)
+                        flatBuildingNumber = add.getFlat_buil_number();
+
+                    if (locality == null)
+                        locality = add.getLocality();
+
+                    if (city == null)
+                        city = add.getCity();
+
+                    if (zipcode == null)
+                        zipcode = add.getZipcode();
+
+                    if (state_id == null)
+                        state_id = add.getState_id();
+
+                    // Update Address
+                    addressService.updateAddressById(flatBuildingNumber, locality, city, zipcode, state_id, addressId);
+
+                    message = "Address has been updated successfully!";
+                    httpStatus = HttpStatus.OK ;
+                }
+            }
+        }
+        return new ResponseEntity<>(message , httpStatus);
+    }
+
+
+
+   /*  @GetMapping("/user")
     @CrossOrigin
     public ResponseEntity<?> getAllPermanentAddress(@RequestParam String accesstoken) {
 
@@ -109,7 +190,7 @@ public class AddressController {
 
 
         return new ResponseEntity<>(message , httpStatus);
-    }
+    }  */
 
     /*
     Get All Permanent Addresses - “/api/address/user”
@@ -140,6 +221,9 @@ public class AddressController {
 
         Here is a link to a sample JSON response.
      */
+
+
+
 
 
     /*

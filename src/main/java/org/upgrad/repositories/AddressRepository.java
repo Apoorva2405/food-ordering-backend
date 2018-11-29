@@ -34,6 +34,21 @@ public interface AddressRepository extends CrudRepository<Address, Integer> {
     @Query(nativeQuery = true,value = "SELECT count(*) FROM ADDRESS ")
     Integer countAddress();
 
+    /*
+       This selects state Name for the state_id.
+    */
+    @Query(nativeQuery = true,value = "SELECT *  FROM ADDRESS where id = ?1 ")
+     Address findAddressById(Integer id);
+
+
+    // Method to update details for particular user.
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value="UPDATE ADDRESS SET flat_buil_number =?1 , locality=?2  , city=?3 , zipcode=?4, state_id=?5 WHERE id=?6")
+    Integer updateAddressById( String flat_buil_number, String locality, String city , String zipcode, Integer state_id, Integer id);
+
+
+
 
 }
 

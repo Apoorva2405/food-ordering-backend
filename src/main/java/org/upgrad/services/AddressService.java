@@ -17,4 +17,8 @@ public interface AddressService {
     Integer addUserAddress(String temp, Integer user_id, Integer address_id) ;
 
     Iterable<States> getAllStates() ;
+
+    Address getaddressById( Integer addressId);
+
+    Integer updateAddressById (String flat_build_num , String locality, String city, String zipcode , Integer state_id , Integer id);
 }
