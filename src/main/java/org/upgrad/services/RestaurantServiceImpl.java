@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.upgrad.models.Restaurant;
 import org.upgrad.repositories.RestaurantRepository;
+import org.upgrad.repositories.StateRepository;
+import org.upgrad.repositories.UserAuthTokenRepository;
+import org.upgrad.repositories.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -14,6 +17,14 @@ public class RestaurantServiceImpl implements RestaurantService{
 
     @Autowired
     RestaurantRepository restaurantRepository;
+    @Autowired
+    StateRepository statesRepository;
+
+
+    public RestaurantServiceImpl(StateRepository statesRepository) {
+        this.statesRepository = statesRepository;
+    }
+
 
     @Override
     public Iterable<Restaurant> getAllRestaurants() {
@@ -34,7 +45,10 @@ public class RestaurantServiceImpl implements RestaurantService{
 
     @Override
     public Restaurant getAllRestaurantsByrestaurantName(String name) {
+       // String name1  = "Lion Heart";
+       // Restaurant rest= restaurantRepository.getRestaurantsByRestName(name1);
         Restaurant rest= restaurantRepository.getRestaurantsByRestName(name);
+
         System.out.println(rest);
         Restaurant res = new Restaurant();
         return res;
