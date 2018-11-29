@@ -131,7 +131,7 @@ public class UserController {
      */
     @PutMapping("")
     @CrossOrigin
-    public ResponseEntity<String> userUpdate(@RequestHeader String firstName, @RequestParam(required = false) String lastName, @RequestHeader String accessToken) {
+    public ResponseEntity<String> userUpdate(@RequestParam String firstName, @RequestParam(required = false) String lastName, @RequestHeader String accessToken) {
 
         UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
         // Checking if user is logged in.
@@ -160,7 +160,7 @@ public class UserController {
      */
     @PutMapping("/password")
     @CrossOrigin
-    public ResponseEntity<String> changePassword(@RequestHeader String oldpassword, @RequestParam String newpassword, @RequestHeader String accessToken) {
+    public ResponseEntity<String> changePassword(@RequestParam String oldPassword, @RequestParam String newPassword, @RequestHeader String accessToken) {
 
         boolean flag = false;
         String passpattern = "(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}";
@@ -177,16 +177,16 @@ public class UserController {
             // Checking if oldpassword matches with password strored in database.
             String passwordByUser = String.valueOf(userService.findUserPasswordId(usertoken.getUser().getId()));
             String oldpasswordsha = Hashing.sha256()
-                    .hashString(oldpassword, Charsets.US_ASCII)
+                    .hashString(oldPassword, Charsets.US_ASCII)
                     .toString();
             if (!(passwordByUser.equalsIgnoreCase(oldpasswordsha))) {
                 return new ResponseEntity<>("Your password did not match your old password!", HttpStatus.UNAUTHORIZED);
-            } else if (!newpassword.matches(passpattern)) {
+            } else if (!newPassword.matches(passpattern)) {
                 return new ResponseEntity<>("Weak password!", HttpStatus.BAD_REQUEST);
             } else {
 
                 String newpasswordsha = Hashing.sha256()
-                        .hashString(newpassword, Charsets.US_ASCII)
+                        .hashString(newPassword, Charsets.US_ASCII)
                         .toString();
 
                 Integer userId =  userAuthTokenService.getUserId(accessToken) ;
@@ -197,9 +197,6 @@ public class UserController {
             return new ResponseEntity<>("Password updated successfully!", HttpStatus.OK);
         }
 
-     //   if (flag == true) return new ResponseEntity<>("Password updated successfully!", HttpStatus.OK);
-      //  else
-      //  return new ResponseEntity<>("Not success", HttpStatus.BAD_REQUEST);
     }
 }
 
