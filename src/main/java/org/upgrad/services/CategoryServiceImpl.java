@@ -1,24 +1,36 @@
 package org.upgrad.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.upgrad.models.Category;
 import org.upgrad.repositories.CategoryRepository;
-import org.upgrad.repositories.RestaurantRepository;
+
+import javax.transaction.Transactional;
 
 @Service
+@Transactional
 public class CategoryServiceImpl implements CategoryService{
 
-    @Autowired
-    CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+
+    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     @Override
     public Iterable<Category> getAllCategories() {
-        return categoryRepository.findAll();
+
+        return categoryRepository.getCategories();
     }
 
     @Override
-    public Category getCategoryByName(String name) {
-        return categoryRepository.findCategoryByName(name);
+    public Category getCategory(String categoryName){
+
+        return categoryRepository.getCategoryByName(categoryName);
     }
+
+    @Override
+    public Integer getCategoryCount(String categoryName){
+        return categoryRepository.getCategoryCountByName(categoryName);
+    }
+
 }

@@ -6,8 +6,17 @@ import org.springframework.stereotype.Repository;
 import org.upgrad.models.Category;
 
 @Repository
-public interface CategoryRepository extends CrudRepository<Category,Integer> {
+public interface CategoryRepository extends CrudRepository<Category, String> {
 
-    @Query(nativeQuery = true,value="SELECT * FROM CATEGORY WHERE category_name=?1")
-    Category findCategoryByName(String name);
+    // Get all category details.
+    @Query(nativeQuery = true,value = "SELECT * FROM CATEGORY")
+    Iterable<Category> getCategories();
+
+    // Get category details by name.
+    @Query(nativeQuery = true,value = "SELECT * FROM CATEGORY WHERE CATEGORY_NAME=?1")
+    Category getCategoryByName(String categoryName);
+
+    // Get category count by name.
+    @Query(nativeQuery = true,value = "SELECT count(*) FROM CATEGORY WHERE CATEGORY_NAME=?1")
+    Integer getCategoryCountByName(String categoryName);
 }
