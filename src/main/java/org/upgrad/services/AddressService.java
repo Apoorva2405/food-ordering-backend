@@ -21,4 +21,9 @@ public interface AddressService {
     Address getaddressById( Integer addressId);
 
     Integer updateAddressById (String flat_build_num , String locality, String city, String zipcode , Integer state_id , Integer id);
+
+    Integer deleteAddressById (Integer id );
+
+    Integer deleteUserAddressById(Integer id);
+
 }

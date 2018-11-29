@@ -60,4 +60,14 @@ public class AddressServiceImpl implements AddressService{
         return addressRepository.updateAddressById(flat_build_num,locality,city,zipcode,state_id,id);
     }
 
+    @Override
+    public Integer deleteAddressById (Integer id )
+    {
+        return addressRepository.deleteAddressById(id);
+    }
+
+    @Override
+    public Integer deleteUserAddressById(Integer id) {
+        return addressRepository.deleteUserAddressById(id);
+    }
 }

@@ -1,19 +1,13 @@
 package org.upgrad.controllers;
 
-
-import com.google.common.base.Charsets;
-import com.google.common.hash.Hashing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.upgrad.models.Address;
-import org.upgrad.models.User;
-import org.upgrad.models.UserAddress;
 import org.upgrad.models.UserAuthToken;
 import org.upgrad.services.AddressService;
 import org.upgrad.services.UserAuthTokenService;
-import org.upgrad.services.UserService;
 
 @RestController
 @RequestMapping("/address")
@@ -50,7 +44,6 @@ public class AddressController {
             Integer userId = userAuthTokenService.getUserId(accesstoken);
 
             if (zip.length() == 6 && zip.matches("[0-9]+")) {
-                System.out.println("State Id" + state_id);
 
                 // Check for valid state Id
                 if( addressService.isValidState(state_id) == null) {
@@ -89,8 +82,6 @@ public class AddressController {
     @PutMapping("/{addressId}")
     @CrossOrigin
     public ResponseEntity<?> updateAddressById(@PathVariable Integer addressId , @RequestParam(required = false) String flatBuildingNumber , @RequestParam(required = false) String locality , @RequestParam(required = false) String city , @RequestParam(required = false) String zipcode , @RequestParam(required = false) Integer state_id , @RequestParam String accesstoken) {
-        System.out.println("add: " + addressId ) ;
-        System.out.println("aT: " + accesstoken) ;
 
         String message = "" ;
         HttpStatus httpStatus = HttpStatus.OK ;
@@ -164,6 +155,49 @@ public class AddressController {
     }
 
 
+    /*
+     This is used to delete address corresponding to addressId
+     */
+    @DeleteMapping("/{addressId}")
+    @CrossOrigin
+    public ResponseEntity<?> deleteAddressById(@PathVariable Integer addressId , @RequestParam String accesstoken) {
+        System.out.println("add: " + addressId);
+        System.out.println("aT: " + accesstoken);
+
+        String message = "";
+        HttpStatus httpStatus = HttpStatus.OK;
+
+        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accesstoken);
+
+        System.out.println(" USER TOKEN " + usertoken);
+        // Checking if user is logged in.
+        if (usertoken == null) {
+            message = "Please Login first to access this endpoint!";
+            httpStatus = HttpStatus.UNAUTHORIZED;
+        } // checking if user is not logged out.
+        else if (userAuthTokenService.isUserLoggedIn(accesstoken).getLogoutAt() != null) {
+            message = "You have already logged out. Please Login first to access this endpoint!";
+            httpStatus = HttpStatus.UNAUTHORIZED;
+        } else {
+
+            // Check if address exists for supplied addressId
+            Address add = addressService.getaddressById(addressId);
+
+            if (add == null) {
+                message = "No address with this address id!";
+                httpStatus = HttpStatus.BAD_REQUEST;
+            } else {
+
+                // Delete address from both tables.
+                addressService.deleteAddressById(addressId) ;
+                addressService.deleteUserAddressById(addressId);
+
+                message = "Address has been deleted successfully!" ;
+                httpStatus = HttpStatus.OK ;
+            }
+        }
+        return new ResponseEntity<>(message , httpStatus);
+    }
 
    /*  @GetMapping("/user")
     @CrossOrigin

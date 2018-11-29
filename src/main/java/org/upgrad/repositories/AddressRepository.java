@@ -29,9 +29,9 @@ public interface AddressRepository extends CrudRepository<Address, Integer> {
     Integer addUserAddress(String type, Integer user_id , Integer address_id);
 
     /*
-       This selects state Name for the state_id.
+       This returns the id of the address.
     */
-    @Query(nativeQuery = true,value = "SELECT count(*) FROM ADDRESS ")
+    @Query(nativeQuery = true,value = "SELECT max(id) FROM ADDRESS ")
     Integer countAddress();
 
     /*
@@ -47,6 +47,18 @@ public interface AddressRepository extends CrudRepository<Address, Integer> {
     @Query(nativeQuery = true,value="UPDATE ADDRESS SET flat_buil_number =?1 , locality=?2  , city=?3 , zipcode=?4, state_id=?5 WHERE id=?6")
     Integer updateAddressById( String flat_buil_number, String locality, String city , String zipcode, Integer state_id, Integer id);
 
+
+    // Method to update details for particular user.
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value="DELETE FROM ADDRESS WHERE id =?1")
+    Integer deleteAddressById( Integer id);
+
+    // Method to update details for particular user.
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value="DELETE FROM User_Address WHERE address_id =?1")
+    Integer deleteUserAddressById( Integer id);
 
 
 
