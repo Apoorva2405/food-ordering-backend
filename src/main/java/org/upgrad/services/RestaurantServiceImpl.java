@@ -17,19 +17,20 @@ public class RestaurantServiceImpl implements RestaurantService{
 
     @Autowired
     RestaurantRepository restaurantRepository;
-    @Autowired
-    StateRepository statesRepository;
 
 
-    public RestaurantServiceImpl(StateRepository statesRepository) {
-        this.statesRepository = statesRepository;
+
+    public RestaurantServiceImpl(RestaurantRepository restaurantRepository) {
+        this.restaurantRepository = restaurantRepository;
     }
 
 
     @Override
     public Iterable<Restaurant> getAllRestaurants() {
         System.out.println("inside get all");
-        return restaurantRepository.findAll();
+        Iterable<Restaurant> rest = restaurantRepository.findAll();
+        System.out.println("rest "+rest);
+        return rest;
     }
 
 

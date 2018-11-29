@@ -2,10 +2,6 @@ package org.upgrad.models;
 
 import javax.persistence.*;
 
-//CREATE TABLE RESTAURANT(id SERIAL, restaurant_name VARCHAR(30) NOT NULL,
-// photo_url VARCHAR(255), user_rating DECIMAL NOT NULL, average_price_for_two INTEGER NOT NULL,
-// number_of_users_rated INTEGER NOT NULL DEFAULT 0, address_id INTEGER NOT NULL , PRIMARY KEY(id),
-// FOREIGN KEY (address_id) REFERENCES ADDRESS(id) ON DELETE CASCADE);
 
 @Entity
 @Table(name="RESTAURANT")
@@ -15,14 +11,14 @@ public class Restaurant{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "state_name", nullable = false)
+    @Column(name = "restaurant_name", nullable = false)
     private String restaurant_name;
 
     @Column(name = "photo_url", nullable = false)
     private String photo_url;
 
     @Column(name = "user_rating", nullable = false)
-    private Number user_rating;
+    private Double user_rating;
 
     @Column(name = "average_price_for_two", nullable = false)
     private int average_price_for_two;
@@ -62,7 +58,7 @@ public class Restaurant{
         return user_rating;
     }
 
-    public void setUser_rating(Number user_rating) {
+    public void setUser_rating(Double user_rating) {
         this.user_rating = user_rating;
     }
 

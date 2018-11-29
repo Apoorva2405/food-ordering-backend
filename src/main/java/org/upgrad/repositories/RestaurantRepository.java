@@ -12,8 +12,6 @@ public interface RestaurantRepository extends CrudRepository<Restaurant, Integer
     @Query(nativeQuery = true,value="SELECT * FROM RESTAURANT WHERE RESTAURANT_NAME=?1")
     Restaurant getRestaurantsByRestName(String name);
 
-
-
 }
 
 
