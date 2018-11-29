@@ -3,6 +3,7 @@ package org.upgrad.repositories;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import org.upgrad.models.Category;
 import org.upgrad.models.Restaurant;
 import org.upgrad.models.States;
 
@@ -11,6 +12,12 @@ public interface RestaurantRepository extends CrudRepository<Restaurant, Integer
 
     @Query(nativeQuery = true,value="SELECT * FROM RESTAURANT WHERE RESTAURANT_NAME=?1")
     Restaurant getRestaurantsByRestName(String name);
+
+    @Query(nativeQuery = true,value="SELECT CATEGORY_ID FROM RESTAURANT_CATEGORY WHERE RESTAURANT_ID=?1")
+    Integer getCategoryId(int id);
+
+    @Query(nativeQuery = true,value="SELECT CATEGORY_NAME FROM CATEGORY WHERE ID=?1")
+    String getCategories(int cat_id);
 
 }
 

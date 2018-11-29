@@ -1,5 +1,6 @@
 package org.upgrad.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -10,14 +11,15 @@ public class Category {
     @Id
     private int id;
 
-    private String category_name;
+    @Column(name="category_id")
+    private String categoryName;
 
-    public String getCategory_name() {
-        return category_name;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategory_name(String category_name) {
-        this.category_name = category_name;
+    public void setCategoryName(String category_name) {
+        this.categoryName = categoryName;
     }
 
     public int getId() {

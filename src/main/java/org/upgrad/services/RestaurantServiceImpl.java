@@ -2,6 +2,7 @@ package org.upgrad.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.upgrad.models.Category;
 import org.upgrad.models.Restaurant;
 import org.upgrad.repositories.RestaurantRepository;
 import org.upgrad.repositories.StateRepository;
@@ -26,10 +27,22 @@ public class RestaurantServiceImpl implements RestaurantService{
 
 
     @Override
-    public Iterable<Restaurant> getAllRestaurants() {
+    public Iterable<Restaurant> getAllRestaurant() {
         System.out.println("inside get all");
         Iterable<Restaurant> rest = restaurantRepository.findAll();
-        System.out.println("rest "+rest);
+        for (Restaurant restaurant: rest) {
+            System.out.println("restaurant.getId() "+restaurant.getId());
+            Integer catId = restaurantRepository.getCategoryId(restaurant.getId());
+            System.out.print("catId "+catId);
+            if (catId != null) {
+                String cat = restaurantRepository.getCategories(catId);
+//                System.out.println("cat "+cat);
+//                category.setCategoryName(cat);
+//                System.out.println("category "+category);
+//                System.out.println("category get"+category.getCategoryName());
+//                restaurant.setCategories(category);
+            }
+        }
         return rest;
     }
 
@@ -45,7 +58,7 @@ public class RestaurantServiceImpl implements RestaurantService{
     }
 
     @Override
-    public Restaurant getAllRestaurantsByrestaurantName(String name) {
+    public Restaurant getRestaurantByName(String name) {
        // String name1  = "Lion Heart";
        // Restaurant rest= restaurantRepository.getRestaurantsByRestName(name1);
         Restaurant rest= restaurantRepository.getRestaurantsByRestName(name);
@@ -56,7 +69,12 @@ public class RestaurantServiceImpl implements RestaurantService{
     }
 
     @Override
-    public Iterable<Restaurant> getAllRestaurantsByCategory(String category) {
+    public Iterable<Restaurant> getRestaurantByCategory(String category) {
+        return null;
+    }
+
+    @Override
+    public Restaurant getRestaurantDetails(int id) {
         return null;
     }
 }

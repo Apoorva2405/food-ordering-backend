@@ -23,13 +23,13 @@ public class RestaurantController {
          */
         @GetMapping("")
         public ResponseEntity<?> getAllRestaurants() {
-            return new ResponseEntity<>(restaurantService.getAllRestaurants(), HttpStatus.OK);
+            return new ResponseEntity<>(restaurantService.getAllRestaurant(), HttpStatus.OK);
         }
 
     @GetMapping("/name/{restaurantName}")
     public ResponseEntity<?> getAllRestaurantsByRestaurantName(@PathVariable String restaurantName, @RequestParam String accesstoken) {
 
-            return new ResponseEntity<>(restaurantService.getAllRestaurantsByrestaurantName(restaurantName), HttpStatus.OK);
+            return new ResponseEntity<>(restaurantService.getRestaurantByName(restaurantName), HttpStatus.OK);
     }
 
     }
