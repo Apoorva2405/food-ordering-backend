@@ -26,27 +26,27 @@ public class AddressController {
      */
     @PostMapping("")
     @CrossOrigin
-    public ResponseEntity<?> address(@RequestParam String flatBuildingNumber, @RequestParam String locality, @RequestParam String city, @RequestParam Integer state_id, @RequestParam String zip, @RequestParam(required = false) String type , @RequestParam String accesstoken) {
+    public ResponseEntity<?> address(@RequestParam String flatBuilNo, @RequestParam String locality, @RequestParam String city, @RequestParam Integer stateId, @RequestParam String zipcode, @RequestParam(required = false) String type , @RequestParam String accessToken) {
 
         String message = "" ;
         HttpStatus httpStatus = HttpStatus.OK ;
 
-        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accesstoken);
+        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
         // Checking if user is logged in.
         if (usertoken == null) {
             message = "Please Login first to access this endpoint!" ;
             httpStatus =  HttpStatus.UNAUTHORIZED ;
         } // checking if user is not logged out.
-        else if (userAuthTokenService.isUserLoggedIn(accesstoken).getLogoutAt() != null) {
+        else if (userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() != null) {
             message = "You have already logged out. Please Login first to access this endpoint!" ;
             httpStatus =  HttpStatus.UNAUTHORIZED ;
         } else {
-            Integer userId = userAuthTokenService.getUserId(accesstoken);
+            Integer userId = userAuthTokenService.getUserId(accessToken);
 
-            if (zip.length() == 6 && zip.matches("[0-9]+")) {
+            if (zipcode.length() == 6 && zipcode.matches("[0-9]+")) {
 
                 // Check for valid state Id
-                if( addressService.isValidState(state_id) == null) {
+                if( addressService.isValidState(stateId) == null) {
                     message = "No state by this state id!" ;
                     httpStatus = HttpStatus.BAD_REQUEST ;
                 } else
@@ -55,7 +55,7 @@ public class AddressController {
                     int addressId  = addressService.countAddress() + 1 ;
                     String type1 = "temp" ;
                     // Save data in address table.
-                    Address address = new Address(addressId ,flatBuildingNumber, locality, city, zip, state_id);
+                    Address address = new Address(addressId ,flatBuilNo, locality, city, zipcode, stateId);
                     addressService.addAddress(address);
 
                     // Setting value of type parameter
@@ -259,11 +259,10 @@ public class AddressController {
 
 
 
-
     /*
      This is used to get details of all states.
      */
-    @GetMapping("/user")
+    @GetMapping("/states")
     @CrossOrigin
     public ResponseEntity<?> getAllPermanentAddress() {
         return new ResponseEntity<>( addressService.getAllStates() , HttpStatus.OK);
