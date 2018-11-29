@@ -5,9 +5,10 @@ import java.io.Serializable;
 
 @Entity
 @Table(name="restaurant")
-public class Restaurant implements Serializable{
+public class Restaurant{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String restaurant_name;
@@ -22,8 +23,8 @@ public class Restaurant implements Serializable{
 
     private int address_id;
 
-    @Transient
-    private Category category;
+  //  @Transient
+  //  private Category category;
 
 
     public int getAddress_id() {
@@ -82,11 +83,5 @@ public class Restaurant implements Serializable{
         this.id = id;
     }
 
-    public Category getCategory() {
-        return category;
-    }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 }
