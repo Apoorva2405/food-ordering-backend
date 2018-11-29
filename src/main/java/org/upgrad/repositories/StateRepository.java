@@ -9,11 +9,12 @@ import org.upgrad.models.States;
 @Repository
 public interface StateRepository extends CrudRepository<States, Integer> {
 
-    /*
-        This selects state Name for the state_id.
-     */
+    //This selects state Name for the state_id.
     @Query(nativeQuery = true,value = "SELECT state_name FROM STATES WHERE id=?1")
     String isValidState(Integer id);
 
+    // get all states
+    @Query(nativeQuery = true,value="select * from states")
+    Iterable<States> getAllStates();
 
 }
