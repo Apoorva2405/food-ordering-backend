@@ -2,6 +2,11 @@ package org.upgrad.models;
 
 import javax.persistence.*;
 
+/*
+ * Restaurant model class contain all the attributes to be mapped to all the fields in the users table in the database.
+ * Annotations are used to specify all the constraints to the table and table-columns in the database.
+ * Here getter, setter and constructor are defined for this model class.
+ */
 
 @Entity
 @Table(name="RESTAURANT")
@@ -32,9 +37,9 @@ public class Restaurant{
     @OneToMany(fetch = FetchType.EAGER)
 
     @Transient
-    private Category categories;
+    private Iterable<Category> categories;
 
-//    private String categories;
+    // Getters and setters for variables
 
     public int getId() {
         return id;
@@ -52,7 +57,7 @@ public class Restaurant{
         this.restaurantName = restaurantName;
     }
 
-    public Number getUserRating() {
+    public Double getUserRating() {
         return userRating;
     }
 
@@ -60,14 +65,6 @@ public class Restaurant{
         this.userRating = userRating;
     }
 
-
-//    public String getCategories() {
-//        return categories;
-//    }
-
-//    public void setCategories(String categories) {
-//        this.categories = categories;
-//    }
 
     public String getPhotoUrl() {
         return photoUrl;
@@ -101,71 +98,12 @@ public class Restaurant{
         this.address = address;
     }
 
-    public Category getCategories() {
+    public Iterable<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(Category category) {
+    public void setCategories(Iterable<Category> category) {
         this.categories = category;
     }
-
-
-
-    /*public int getAddress_id() {
-        return address_id;
-    }
-
-    public void setAddress_id(int address_id) {
-        this.address_id = address_id;
-    }
-
-    public int getNumber_of_users_rated() {
-        return number_of_users_rated;
-     }
-
-    public void setNumber_of_users_rated(int number_of_users_rated) {
-        this.number_of_users_rated = number_of_users_rated;
-    }
-
-    public int getAverage_price_for_two() {
-        return average_price_for_two;
-    }
-
-    public void setAverage_price_for_two(int average_price_for_two) {
-        this.average_price_for_two = average_price_for_two;
-    }
-
-    public Number getUser_rating() {
-        return user_rating;
-    }
-
-    public void setUser_rating(Number user_rating) {
-        this.user_rating = user_rating;
-    }
-
-    public String getPhoto_url() {
-        return photo_url;
-    }
-
-    public void setPhoto_url(String photo_url) {
-        this.photo_url = photo_url;
-    }
-
-    public String getRestaurant_name() {
-        return restaurant_name;
-    }
-
-    public void setRestaurant_name(String restaurant_name) {
-        this.restaurant_name = restaurant_name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-  */
 
 }
