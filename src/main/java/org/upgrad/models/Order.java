@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 /*
- * Order model class contain all the attributes to be mapped to all the fields in the orders table in the database.
+ * Order model class contain all the attributes to be mapped to all the fields in the order table in the database.
  * Annotations are used to specify all the constraints to the table and table-columns in the database.
  * Here getter, setter and constructor are defined for this model class.
  */
@@ -40,27 +40,30 @@ public class Order {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    //@ManyToOne
-    //@OnDelete(action = OnDeleteAction.CASCADE)
-    //private Payment payment;
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Payment payment;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Address address;
 
+    //Default constructor
     public Order(){}
 
-    public Order(String categoryName, double bill, Coupon coupon, double discount, Date date, User user, /*Payment payment,*/ Address address) {
+    //Parameterized constructor
+    public Order(String categoryName, double bill, Coupon coupon, double discount, Date date, User user, Payment payment, Address address) {
         this.categoryName = categoryName;
         this.bill = bill;
         this.coupon = coupon;
         this.discount = discount;
         this.date = date;
         this.user = user;
-        //this.payment = payment;
+        this.payment = payment;
         this.address = address;
     }
 
+    //Getter & Setter methods
     public Integer getId() {
         return id;
     }
@@ -117,14 +120,14 @@ public class Order {
         this.user = user;
     }
 
-    /*public Payment getPayment() {
+    public Payment getPayment() {
         return payment;
     }
 
     public void setPayment(Payment payment) {
         this.payment = payment;
     }
-*/
+
     public Address getAddress() {
         return address;
     }
