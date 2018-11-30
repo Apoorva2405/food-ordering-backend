@@ -9,7 +9,7 @@ import org.upgrad.services.PaymentService;
 import org.upgrad.services.UserAuthTokenService;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("")
 public class PaymentController {
 
     @Autowired
