@@ -3,6 +3,7 @@ package org.upgrad.repositories;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import org.upgrad.models.Restaurant;
 import org.upgrad.models.States;
 
 @Repository
@@ -15,6 +16,5 @@ public interface StateRepository extends CrudRepository<States, Integer> {
     // get all states
     @Query(nativeQuery = true,value="select * from states")
     Iterable<States> getAllStates();
-
 
 }
