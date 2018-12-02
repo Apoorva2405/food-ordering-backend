@@ -131,7 +131,7 @@ public class UserController {
      */
     @PutMapping("")
     @CrossOrigin
-    public ResponseEntity<String> userUpdate(@RequestParam String firstName, @RequestParam(required = false) String lastName, @RequestHeader String accessToken) {
+    public ResponseEntity<?> userUpdate(@RequestParam String firstName, @RequestParam(required = false) String lastName, @RequestHeader String accessToken) {
 
         UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
         // Checking if user is logged in.
@@ -143,15 +143,12 @@ public class UserController {
         } else {
 
             Integer userId =  userAuthTokenService.getUserId(accessToken) ;
-
             User user = userService.updateUser(firstName, lastName, userId) ;
 
             // Updating user details.
             if ( user != null) ;
             {
-                // TODO : Response should contain user details not user string
-              //  User user = userService.findUserId(userId);
-                return new ResponseEntity<>(user.toString(), HttpStatus.CREATED);
+                return new ResponseEntity<>(user, HttpStatus.CREATED);
             }
         }
     }
@@ -205,7 +202,6 @@ public class UserController {
 
             return new ResponseEntity<>("Password updated successfully!", HttpStatus.OK);
         }
-
     }
 }
 

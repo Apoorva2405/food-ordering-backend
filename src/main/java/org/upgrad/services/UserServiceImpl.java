@@ -53,8 +53,8 @@ public class UserServiceImpl implements UserService{
             userRepository.updateDetails(firstname,lastname,id);
 
 
-        User user  =  userRepository.findUserId(id) ;
-        return user ;
+        User user  =  userRepository.findUserId(id);
+        return user;
     }
 
 }
