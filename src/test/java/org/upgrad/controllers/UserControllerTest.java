@@ -173,8 +173,8 @@ public class UserControllerTest {
                 .andExpect(content().string(containsString("You have already logged out. Please Login first to access this endpoint!")));
     }
 
-   /* @Test
-   public void updateUserDetails() throws Exception{
+    @Test
+    public void updateUserDetails() throws Exception{
         String firstName = "software";
         String lastName = "development";
         String accessToken = "#############################";
@@ -193,7 +193,8 @@ public class UserControllerTest {
                 .param("lastName", lastName)
                 .header("accessToken", accessToken))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$.firstName", Matchers.is("soft"))); }  */
+                .andExpect(jsonPath("$.firstName", Matchers.is("soft")));
+    }
 
     @Test
     public void updateUserPasswordWithoutLogin() throws Exception{
@@ -227,7 +228,7 @@ public class UserControllerTest {
                 .andExpect(content().string(containsString("You have already logged out. Please Login first to access this endpoint!")));
     }
 
-   /* @Test
+    @Test
     public void updateUserPasswordWithIncorrectOldPassword() throws Exception {
         String oldPassword = "Upgrad@12345";
         String newPassword = "Upgrad@123";
@@ -247,10 +248,10 @@ public class UserControllerTest {
                 .header("accessToken", accessToken))
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().string(containsString("Your password did not match to your old password!")));
-    } */
+    }
 
 
-  /*  @Test
+    @Test
     public void updateUserPasswordWithWeakPassword() throws Exception {
         String oldPassword = "Upgrad@12345";
         String oldPasswordHash = Hashing.sha256()
@@ -273,9 +274,9 @@ public class UserControllerTest {
                 .header("accessToken", accessToken))
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().string(containsString("Weak password!")));
-    } */
+    }
 
-  /*  @Test
+   @Test
     public void updateUserPassword() throws Exception {
         String oldPassword = "Upgrad@12345";
         String oldPasswordHash = Hashing.sha256()
@@ -299,5 +300,5 @@ public class UserControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().string(containsString("Password updated successfully!")));
     }
-*/
+
     }
