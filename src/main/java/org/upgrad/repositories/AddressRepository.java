@@ -1,6 +1,8 @@
 package org.upgrad.repositories;
 
 import org.upgrad.models.Address;
+import org.upgrad.models.States;
+import org.upgrad.models.UserAddress;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -38,7 +40,7 @@ public interface AddressRepository extends CrudRepository<Address, Integer> {
        This selects state Name for the state_id.
     */
     @Query(nativeQuery = true,value = "SELECT *  FROM ADDRESS where id = ?1 ")
-     Address findAddressById(Integer id);
+    Address findAddressById(Integer id);
 
 
     // Method to update details for particular user.
@@ -60,7 +62,9 @@ public interface AddressRepository extends CrudRepository<Address, Integer> {
     @Query(nativeQuery = true,value="DELETE FROM User_Address WHERE address_id =?1")
     Integer deleteUserAddressById( Integer id);
 
-
+    @Query(nativeQuery = true,value = "SELECT address_id  FROM USER_ADDRESS where type = 'prem' and user_id = ?1 ")
+   // @Query(nativeQuery = true,value = "SELECT address_id  FROM USER_ADDRESS where user_id = ?1 ")
+    Iterable<Integer> getPermAdd(Integer id);
 
 }
 

@@ -2,6 +2,7 @@ package org.upgrad.services;
 
 import org.upgrad.models.Address;
 import org.upgrad.models.States;
+import org.upgrad.models.UserAddress;
 
 public interface AddressService {
 
@@ -27,5 +28,7 @@ public interface AddressService {
     Integer deleteAddressById (Integer id );
 
     Integer deleteUserAddressById(Integer id);
+
+    Iterable<Integer> getPermAddress(Integer userId) ;
 
 }

@@ -287,7 +287,7 @@ public class AddressControllerTest {
                 .andExpect(content().string(containsString("You have already logged out. Please Login first to access this endpoint!")));
     }
 
-  /*  @Test
+   @Test
     public void getAddressesWithNoSavedAddress() throws Exception{
         String accessToken = "#############################";
         UserAuthToken userAuthToken = new UserAuthToken();
@@ -302,7 +302,7 @@ public class AddressControllerTest {
                 .andExpect(content().string(containsString("No permanent address found!")));
     }
 
-    @Test
+  /*  @Test
     public void getAddressesByUser() throws Exception{
         String accessToken = "#############################";
         UserAuthToken userAuthToken = new UserAuthToken();

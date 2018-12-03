@@ -5,6 +5,7 @@ import org.upgrad.models.Address;
 import org.upgrad.models.States;
 import org.upgrad.repositories.StateRepository;
 import org.upgrad.repositories.AddressRepository;
+import org.upgrad.models.UserAddress;
 
 
 import javax.transaction.Transactional;
@@ -79,5 +80,10 @@ public class AddressServiceImpl implements AddressService{
             return false;
         else
             return true ;
+    }
+
+    @Override
+    public Iterable<Integer> getPermAddress(Integer userId) {
+        return  addressRepository.getPermAdd(userId) ;
     }
 }

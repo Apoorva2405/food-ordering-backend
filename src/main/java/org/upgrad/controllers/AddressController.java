@@ -205,34 +205,8 @@ public class AddressController {
         return new ResponseEntity<>(message , httpStatus);
     }
 
-   /*  @GetMapping("/user")
-    @CrossOrigin
-    public ResponseEntity<?> getAllPermanentAddress(@RequestParam String accesstoken) {
 
-        String message = "" ;
-        HttpStatus httpStatus = HttpStatus.OK ;
-
-        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accesstoken);
-        // Checking if user is logged in.
-        if (usertoken == null) {
-            message = "Please Login first to access this endpoint!" ;
-            httpStatus =  HttpStatus.UNAUTHORIZED ;
-        } // checking if user is not logged out.
-        else if (userAuthTokenService.isUserLoggedIn(accesstoken).getLogoutAt() != null) {
-            message = "You have already logged out. Please Login first to access this endpoint!" ;
-            httpStatus =  HttpStatus.UNAUTHORIZED ;
-        } else {
-            Integer userId = userAuthTokenService.getUserId(accesstoken);
-
-
-
-        }
-
-
-        return new ResponseEntity<>(message , httpStatus);
-    }  */
-
-    /*
+       /*
     Get All Permanent Addresses - “/api/address/user”
 
     It should be a GET request.
@@ -261,6 +235,46 @@ public class AddressController {
 
         Here is a link to a sample JSON response.
      */
+
+
+
+   @GetMapping("/user")
+    @CrossOrigin
+    public ResponseEntity<?> getAllPermanentAddress(@RequestHeader String accessToken) {
+
+        String message = "" ;
+        HttpStatus httpStatus = HttpStatus.OK ;
+
+        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
+        // Checking if user is logged in.
+        if (usertoken == null) {
+            message = "Please Login first to access this endpoint!" ;
+            httpStatus =  HttpStatus.UNAUTHORIZED ;
+        } // checking if user is not logged out.
+        else if (userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() != null) {
+            message = "You have already logged out. Please Login first to access this endpoint!" ;
+            httpStatus =  HttpStatus.UNAUTHORIZED ;
+        } else {
+            Integer userId = userAuthTokenService.getUserId(accessToken);
+
+            if ( addressService.getPermAddress(userId)  == null )
+            {
+                message = "No permanent address found!" ;
+                httpStatus = HttpStatus.BAD_REQUEST ;
+            }
+            else
+            {
+             //   message =   addressService.getPermAddress(userId) ;
+                return new ResponseEntity<>( addressService.getPermAddress(userId) , HttpStatus.OK);
+
+            }
+
+
+        }
+
+
+        return new ResponseEntity<>(message , httpStatus);
+    }
 
 
 

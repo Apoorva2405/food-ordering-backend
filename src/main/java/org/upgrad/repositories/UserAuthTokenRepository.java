@@ -23,7 +23,6 @@ public interface UserAuthTokenRepository extends CrudRepository<UserAuthToken, I
     @Query(nativeQuery = true,value="UPDATE USER_AUTH_TOKEN SET logout_at=NOW() WHERE access_token=?1")
     void removeAuthToken( String accessToken);
 
-
     @Query(nativeQuery = true,value = "SELECT state_name FROM STATES WHERE id=?1")
     String isValidState(Integer id);
 }
