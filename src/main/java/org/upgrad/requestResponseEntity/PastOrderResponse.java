@@ -1,66 +1,50 @@
-package org.upgrad.models;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+package org.upgrad.requestResponseEntity;
 
-import javax.persistence.*;
+import org.upgrad.models.*;
+
 import java.util.Date;
+import java.util.List;
 
 /*
- * Order model class contain all the attributes to be mapped to all the fields in the order table in the database.
- * Annotations are used to specify all the constraints to the table and table-columns in the database.
- * Here getter, setter and constructor are defined for this model class.
+ * PastOrderResponse class contain all the attributes that are to be returned as a response.
+ * Here getter, setter and constructor are defined for this response class.
  */
 
+public class PastOrderResponse {
 
-@Entity
-@Table(name = "ORDERS")
-public class Order {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "bill",nullable = false)
     private double bill;
 
-    @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Coupon coupon;
 
-    @Column(name = "discount")
     private double discount;
 
-    @Column(name = "date")
     private Date date = new Date();
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Payment payment;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Address address;
 
+    private List<OrderItemResponse> orderItems;
 
-    //Default constructor
-    public Order(){}
+    public PastOrderResponse() {
+    }
 
-    //Parameterized constructor
-    public Order(double bill, Coupon coupon, double discount, Date date, User user, Payment payment, Address address) {
+    public PastOrderResponse(Integer id, double bill, Coupon coupon, double discount, Date date, Payment payment, User user, Address address, List<OrderItemResponse> orderItems) {
+        this.id = id;
         this.bill = bill;
         this.coupon = coupon;
         this.discount = discount;
         this.date = date;
-        this.user = user;
         this.payment = payment;
+        this.user = user;
         this.address = address;
+        this.orderItems = orderItems;
     }
 
-    //Getter & Setter methods
     public Integer getId() {
         return id;
     }
@@ -101,14 +85,6 @@ public class Order {
         this.date = date;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Payment getPayment() {
         return payment;
     }
@@ -117,11 +93,27 @@ public class Order {
         this.payment = payment;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Address getAddress() {
         return address;
     }
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public List<OrderItemResponse> getOrderItem() {
+        return orderItems;
+    }
+
+    public void setOrderItem(List<OrderItemResponse> orderItems) {
+        this.orderItems = orderItems;
     }
 }

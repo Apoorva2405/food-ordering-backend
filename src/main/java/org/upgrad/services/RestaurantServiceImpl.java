@@ -56,6 +56,7 @@ public class RestaurantServiceImpl implements RestaurantService{
     public Iterable<RestaurantResponse> getRestaurantByName(String name) {
         List<RestaurantResponse> restaurants = new ArrayList<>();
         Iterable<Restaurant> restaurantList = restaurantRepository.getRestaurantsByRestName(name);
+
         if (restaurantList.iterator().hasNext()) {
             for (Restaurant restaurant: restaurantList) {
                 List<Integer> catIds = (List<Integer>) restaurantRepository.getCategoryId(restaurant.getId());

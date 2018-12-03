@@ -5,12 +5,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.upgrad.models.Address;
+import org.upgrad.models.States;
 import org.upgrad.models.UserAuthToken;
 import org.upgrad.services.AddressService;
 import org.upgrad.services.UserAuthTokenService;
 
+import javax.swing.plaf.synth.SynthTextAreaUI;
+
 @RestController
-@RequestMapping("/address")
+@RequestMapping("")
 public class AddressController {
 
     @Autowired
@@ -24,7 +27,7 @@ public class AddressController {
      * This endpoint is used to signup a user.
      * Param - First name , Last name (optional) , Email , Contact number , Password
      */
-    @PostMapping("")
+    @PostMapping("/address")
     @CrossOrigin
     public ResponseEntity<?> address(@RequestParam String flatBuilNo, @RequestParam String locality, @RequestParam String city, @RequestParam Integer stateId, @RequestParam String zipcode, @RequestParam(required = false) String type , @RequestHeader String accessToken) {
 
@@ -45,8 +48,9 @@ public class AddressController {
 
             if (zipcode.length() == 6 && zipcode.matches("[0-9]+")) {
 
+                States state =   addressService.isValidState(stateId) ;
                 // Check for valid state Id
-                if( addressService.isValidState(stateId) == null) {
+                if( state == null) {
                     message = "No state by this state id!" ;
                     httpStatus = HttpStatus.BAD_REQUEST ;
                 } else
@@ -55,7 +59,7 @@ public class AddressController {
                     int addressId  = addressService.countAddress() + 1 ;
                     String type1 = "temp" ;
                     // Save data in address table.
-                    Address address = new Address(addressId ,flatBuilNo, locality, city, zipcode, stateId);
+                    Address address = new Address(addressId ,flatBuilNo, locality, city, zipcode, state);
                     addressService.addAddress(address);
 
                     // Setting value of type parameter
@@ -79,14 +83,14 @@ public class AddressController {
     /*
     This is used to update address corresponding to addressId
     */
-    @PutMapping("/{addressId}")
+    @PutMapping("/address/{addressId}")
     @CrossOrigin
-    public ResponseEntity<?> updateAddressById(@PathVariable Integer addressId , @RequestParam(required = false) String flatBuildingNumber , @RequestParam(required = false) String locality , @RequestParam(required = false) String city , @RequestParam(required = false) String zipcode , @RequestParam(required = false) Integer state_id , @RequestHeader String accesstoken) {
+    public ResponseEntity<?> updateAddressById(@PathVariable Integer addressId , @RequestParam(required = false) String flatBuilNo , @RequestParam(required = false) String locality , @RequestParam(required = false) String city , @RequestParam(required = false) String zipcode , @RequestParam(required = false) Integer stateId , @RequestHeader String accessToken) {
 
         String message = "" ;
         HttpStatus httpStatus = HttpStatus.OK ;
 
-        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accesstoken);
+        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
 
         System.out.println(" USER TOKEN "+ usertoken) ;
         // Checking if user is logged in.
@@ -94,41 +98,45 @@ public class AddressController {
             message = "Please Login first to access this endpoint!" ;
             httpStatus =  HttpStatus.UNAUTHORIZED ;
         } // checking if user is not logged out.
-        else if (userAuthTokenService.isUserLoggedIn(accesstoken).getLogoutAt() != null) {
+        else if (userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() != null) {
             message = "You have already logged out. Please Login first to access this endpoint!" ;
             httpStatus =  HttpStatus.UNAUTHORIZED ;
         } else {
-            Integer userId = userAuthTokenService.getUserId(accesstoken);
+            Integer userId = userAuthTokenService.getUserId(accessToken);
 
             // Zipcode Validation check
             if (zipcode != null ){
                 if (! ( zipcode.length() == 6 && zipcode.matches("[0-9]+") )) {
-                    message = "Invalid zipcode!";
-                    httpStatus = HttpStatus.BAD_REQUEST;
+                    return new ResponseEntity<>("Invalid zipcode!" , HttpStatus.BAD_REQUEST);
                 }
             }
-
             // Valid State check
             boolean validState  = false ;
-            if (state_id != null) {
-                if(  addressService.isValidState(state_id) == null) {
+
+            System.out.println("Sugandha" + stateId);
+            System.out.println("Sugandha" + stateId.toString());
+
+
+            System.out.println("Sugandha valid state" +  addressService.isValidState(stateId));
+
+            if (stateId != null) {
+                if (addressService.isValidState(stateId) == null) {
                     message = "No state by this state id!";
                     httpStatus = HttpStatus.BAD_REQUEST;
-                }
-                else
-                    validState = true ;
+                } else
+                    validState = true;
             }
 
             if (validState == true) {
 
                 // Check if address exists for supplied addressId
-                Address add = addressService.getaddressById(addressId);
+                Boolean  add = addressService.getAddress(addressId);
 
                 if (add == null) {
                     message = "No address with this address id!";
                     httpStatus = HttpStatus.BAD_REQUEST;
                 } else {
-                    if (flatBuildingNumber == null)
+                   /*  if (flatBuildingNumber == null)
                         flatBuildingNumber = add.getFlat_buil_number();
 
                     if (locality == null)
@@ -141,10 +149,10 @@ public class AddressController {
                         zipcode = add.getZipcode();
 
                     if (state_id == null)
-                        state_id = add.getState_id();
+                        state_id = add.getState_id();  */
 
                     // Update Address
-                    addressService.updateAddressById(flatBuildingNumber, locality, city, zipcode, state_id, addressId);
+                    addressService.updateAddressById(flatBuilNo, locality, city, zipcode, stateId, addressId);
 
                     message = "Address has been updated successfully!";
                     httpStatus = HttpStatus.OK ;
@@ -158,16 +166,16 @@ public class AddressController {
     /*
      This is used to delete address corresponding to addressId
      */
-    @DeleteMapping("/{addressId}")
+    @DeleteMapping("/address/{addressId}")
     @CrossOrigin
-    public ResponseEntity<?> deleteAddressById(@PathVariable Integer addressId , @RequestHeader String accesstoken) {
+    public ResponseEntity<?> deleteAddressById(@PathVariable Integer addressId , @RequestHeader String accessToken) {
         System.out.println("add: " + addressId);
-        System.out.println("aT: " + accesstoken);
+        System.out.println("aT: " + accessToken);
 
         String message = "";
         HttpStatus httpStatus = HttpStatus.OK;
 
-        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accesstoken);
+        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
 
         System.out.println(" USER TOKEN " + usertoken);
         // Checking if user is logged in.
@@ -175,15 +183,18 @@ public class AddressController {
             message = "Please Login first to access this endpoint!";
             httpStatus = HttpStatus.UNAUTHORIZED;
         } // checking if user is not logged out.
-        else if (userAuthTokenService.isUserLoggedIn(accesstoken).getLogoutAt() != null) {
+        else if (userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() != null) {
             message = "You have already logged out. Please Login first to access this endpoint!";
             httpStatus = HttpStatus.UNAUTHORIZED;
         } else {
 
-            // Check if address exists for supplied addressId
-            Address add = addressService.getaddressById(addressId);
+            System.out.println("HERE" + addressId) ;
 
-            if (add == null) {
+
+            // Check if address exists for supplied addressId
+            Boolean add = addressService.getAddress(addressId);
+
+            if (add == false) {
                 message = "No address with this address id!";
                 httpStatus = HttpStatus.BAD_REQUEST;
             } else {
@@ -199,34 +210,8 @@ public class AddressController {
         return new ResponseEntity<>(message , httpStatus);
     }
 
-   /*  @GetMapping("/user")
-    @CrossOrigin
-    public ResponseEntity<?> getAllPermanentAddress(@RequestParam String accesstoken) {
 
-        String message = "" ;
-        HttpStatus httpStatus = HttpStatus.OK ;
-
-        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accesstoken);
-        // Checking if user is logged in.
-        if (usertoken == null) {
-            message = "Please Login first to access this endpoint!" ;
-            httpStatus =  HttpStatus.UNAUTHORIZED ;
-        } // checking if user is not logged out.
-        else if (userAuthTokenService.isUserLoggedIn(accesstoken).getLogoutAt() != null) {
-            message = "You have already logged out. Please Login first to access this endpoint!" ;
-            httpStatus =  HttpStatus.UNAUTHORIZED ;
-        } else {
-            Integer userId = userAuthTokenService.getUserId(accesstoken);
-
-
-
-        }
-
-
-        return new ResponseEntity<>(message , httpStatus);
-    }  */
-
-    /*
+       /*
     Get All Permanent Addresses - “/api/address/user”
 
     It should be a GET request.
@@ -258,12 +243,52 @@ public class AddressController {
 
 
 
+   @GetMapping("/address/user")
+    @CrossOrigin
+    public ResponseEntity<?> getAllPermanentAddress(@RequestHeader String accessToken) {
+
+        String message = "" ;
+        HttpStatus httpStatus = HttpStatus.OK ;
+
+        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
+        // Checking if user is logged in.
+        if (usertoken == null) {
+            message = "Please Login first to access this endpoint!" ;
+            httpStatus =  HttpStatus.UNAUTHORIZED ;
+        } // checking if user is not logged out.
+        else if (userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() != null) {
+            message = "You have already logged out. Please Login first to access this endpoint!" ;
+            httpStatus =  HttpStatus.UNAUTHORIZED ;
+        } else {
+            Integer userId = userAuthTokenService.getUserId(accessToken);
+
+            if ( addressService.getPermAddress(userId)  == null )
+            {
+                message = "No permanent address found!" ;
+                httpStatus = HttpStatus.BAD_REQUEST ;
+            }
+            else
+            {
+
+             //   message =   addressService.getPermAddress(userId) ;
+                return new ResponseEntity<>( addressService.getPermAddress(userId) , HttpStatus.OK);
+
+            }
+
+
+        }
+
+
+        return new ResponseEntity<>(message , httpStatus);
+    }
+
+
+
 
     /*
      This is used to get details of all states.
      */
     @GetMapping("/states")
-    @CrossOrigin
     public ResponseEntity<?> getAllPermanentAddress() {
         return new ResponseEntity<>( addressService.getAllStates() , HttpStatus.OK);
     }

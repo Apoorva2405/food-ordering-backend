@@ -1,6 +1,8 @@
 package org.upgrad.repositories;
 
 import org.upgrad.models.Address;
+import org.upgrad.models.States;
+import org.upgrad.models.UserAddress;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -9,9 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 // This repository interface is responsible for the interaction between the user service with the user database
 
-// CREATE TABLE ADDRESS(id SERIAL, flat_buil_number VARCHAR(255), locality VARCHAR(255),
-// city VARCHAR(30),zipcode VARCHAR(30),
-// state_id INTEGER ,PRIMARY KEY (id),FOREIGN KEY (state_id) REFERENCES STATES(id) ON DELETE CASCADE);
 @Repository
 public interface AddressRepository extends CrudRepository<Address, Integer> {
 
@@ -38,7 +37,7 @@ public interface AddressRepository extends CrudRepository<Address, Integer> {
        This selects state Name for the state_id.
     */
     @Query(nativeQuery = true,value = "SELECT *  FROM ADDRESS where id = ?1 ")
-     Address findAddressById(Integer id);
+    Address findAddressById(Integer id);
 
 
     // Method to update details for particular user.
@@ -60,7 +59,8 @@ public interface AddressRepository extends CrudRepository<Address, Integer> {
     @Query(nativeQuery = true,value="DELETE FROM User_Address WHERE address_id =?1")
     Integer deleteUserAddressById( Integer id);
 
-
+    @Query(nativeQuery = true,value = "SELECT address_id  FROM USER_ADDRESS where type = 'prem' and user_id = ?1 ")
+    Iterable<Integer> getPermAdd(Integer id);
 
 }
 
