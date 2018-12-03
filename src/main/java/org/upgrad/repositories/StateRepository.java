@@ -17,4 +17,8 @@ public interface StateRepository extends CrudRepository<States, Integer> {
     @Query(nativeQuery = true,value="select * from states")
     Iterable<States> getAllStates();
 
+    //This selects state Name for the state_id.
+    @Query(nativeQuery = true,value = "SELECT * FROM STATES WHERE id=?1")
+    States getStatebyId(Integer id);
+
 }

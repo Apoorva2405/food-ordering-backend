@@ -264,6 +264,7 @@ public class AddressController {
             }
             else
             {
+
              //   message =   addressService.getPermAddress(userId) ;
                 return new ResponseEntity<>( addressService.getPermAddress(userId) , HttpStatus.OK);
 

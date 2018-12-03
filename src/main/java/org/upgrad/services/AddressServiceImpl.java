@@ -1,14 +1,20 @@
 package org.upgrad.services;
 
+import io.swagger.models.auth.In;
 import org.springframework.stereotype.Service;
 import org.upgrad.models.Address;
+import org.upgrad.models.Restaurant;
 import org.upgrad.models.States;
 import org.upgrad.repositories.StateRepository;
 import org.upgrad.repositories.AddressRepository;
 import org.upgrad.models.UserAddress;
+import org.upgrad.requestResponseEntity.RestaurantResponse;
+import org.upgrad.requestResponseEntity.UserPremAddressResponse;
 
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -83,7 +89,42 @@ public class AddressServiceImpl implements AddressService{
     }
 
     @Override
-    public Iterable<Integer> getPermAddress(Integer userId) {
-        return  addressRepository.getPermAdd(userId) ;
+    public  Iterable<UserPremAddressResponse>  getPermAddress(Integer userId)
+    {
+        List<UserPremAddressResponse> userList = new ArrayList<>();
+
+        Iterable<Integer> premAddressIdList = addressRepository.getPermAdd(userId);
+
+        if( premAddressIdList.iterator().hasNext() )
+        {
+            for (Integer addressId: premAddressIdList ) {
+                Address  add = addressRepository.findAddressById(addressId) ;
+                States state = stateRepository.getStatebyId(add.getState_id());
+
+
+                UserPremAddressResponse resp = new UserPremAddressResponse(add.getId(), add.getFlat_buil_number(), add.getLocality(), add.getCity(), add.getZipcode(), state);
+                userList.add(resp);
+            }
+        }
+
+    /*    List<RestaurantResponse> restaurants = new ArrayList<>();
+        Iterable<Restaurant> restaurantList = restaurantRepository.getRestaurantsByRestName(name);
+
+        if (restaurantList.iterator().hasNext()) {
+            for (Restaurant restaurant: restaurantList) {
+                List<Integer> catIds = (List<Integer>) restaurantRepository.getCategoryId(restaurant.getId());
+                List<String> categoryList = new ArrayList<>();
+                if (catIds.size()!=0) {
+                    for (Integer catid: catIds) {
+                        String restCategory = categoryRepository.getCategoryNameById(catid);
+                        categoryList.add(restCategory);
+                    }
+                }
+                RestaurantResponse resp = new RestaurantResponse(restaurant.getId(),restaurant.getRestaurantName(),restaurant.getPhotoUrl(),restaurant.getUserRating(),restaurant.getAvgPrice(),restaurant.getNumberUsersRated(),restaurant.getAddress(),categoryList.toString());
+                restaurants.add(resp);
+            }
+        }
+        return restaurants; */
+        return userList;
     }
 }

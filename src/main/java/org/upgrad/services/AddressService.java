@@ -3,6 +3,7 @@ package org.upgrad.services;
 import org.upgrad.models.Address;
 import org.upgrad.models.States;
 import org.upgrad.models.UserAddress;
+import org.upgrad.requestResponseEntity.UserPremAddressResponse;
 
 public interface AddressService {
 
@@ -29,6 +30,6 @@ public interface AddressService {
 
     Integer deleteUserAddressById(Integer id);
 
-    Iterable<Integer> getPermAddress(Integer userId) ;
+    Iterable<UserPremAddressResponse>  getPermAddress(Integer userId) ;
 
 }

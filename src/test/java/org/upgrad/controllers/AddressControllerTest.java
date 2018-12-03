@@ -302,7 +302,7 @@ public class AddressControllerTest {
                 .andExpect(content().string(containsString("No permanent address found!")));
     }
 
-  /*  @Test
+ /*   @Test
     public void getAddressesByUser() throws Exception{
         String accessToken = "#############################";
         UserAuthToken userAuthToken = new UserAuthToken();
@@ -319,7 +319,7 @@ public class AddressControllerTest {
                 .contentType(MediaType.asMediaType(APPLICATION_JSON))
                 .header("accessToken", accessToken))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$[0].city", Matchers.is("Mumbai")));   }  */
+                .andExpect(jsonPath("$[0].city", Matchers.is("Mumbai")));   }   */
 
 
 
