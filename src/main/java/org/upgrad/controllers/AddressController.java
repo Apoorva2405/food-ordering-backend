@@ -9,6 +9,8 @@ import org.upgrad.models.UserAuthToken;
 import org.upgrad.services.AddressService;
 import org.upgrad.services.UserAuthTokenService;
 
+import javax.swing.plaf.synth.SynthTextAreaUI;
+
 @RestController
 @RequestMapping("/address")
 public class AddressController {
@@ -103,11 +105,9 @@ public class AddressController {
             // Zipcode Validation check
             if (zipcode != null ){
                 if (! ( zipcode.length() == 6 && zipcode.matches("[0-9]+") )) {
-                    message = "Invalid zipcode!";
-                    httpStatus = HttpStatus.BAD_REQUEST;
+                    return new ResponseEntity<>("Invalid zipcode!" , HttpStatus.BAD_REQUEST);
                 }
             }
-
             // Valid State check
             boolean validState  = false ;
 
