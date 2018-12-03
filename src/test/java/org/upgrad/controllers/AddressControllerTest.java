@@ -312,7 +312,7 @@ public class AddressControllerTest {
         List<Address> addresses = singletonList(address);
         Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
         Mockito.when(userAuthTokenService.getUserId(accessToken)).thenReturn(userId);
-      //  Mockito.when(addressService.getPermAddress(userId)).thenReturn(addresses);
+        Mockito.when(addressService.getPermAddress(userId)).thenReturn(addresses);
         String url = "/address/user";
         mvc.perform(get(url)
                 .contentType(MediaType.asMediaType(APPLICATION_JSON))

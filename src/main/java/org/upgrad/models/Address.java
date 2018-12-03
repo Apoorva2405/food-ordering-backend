@@ -17,8 +17,16 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    public String getFlatBuilNo() {
+        return flatBuilNo;
+    }
+
+    public void setFlatBuilNo(String flatBuilNo) {
+        this.flatBuilNo = flatBuilNo;
+    }
+
     @Column(name = "flat_buil_number", nullable = false)
-    private String flat_buil_number;
+    private String flatBuilNo;
 
     @Column(name = "locality",nullable = false)
     private String locality;
@@ -33,14 +41,6 @@ public class Address {
     private States state;
 
 
-   // @Column(name = "state_id",nullable = false)
-   // private Integer state_id;
-
-
-   // @Transient
-   //  private States state ;
-
-
     // Default constructor
     public Address(){
     }
@@ -48,7 +48,7 @@ public class Address {
     // Parameterized Constructor
     public Address(Integer id ,String flat_buil_number, String locality, String city, String zipcode, States state) {
         this.id = id ;
-        this.flat_buil_number = flat_buil_number ;
+        this.flatBuilNo = flat_buil_number ;
         this.city = city ;
         this.locality = locality ;
         this.zipcode = zipcode ;
@@ -64,14 +64,6 @@ public class Address {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getFlat_buil_number() {
-        return flat_buil_number;
-    }
-
-    public void setFlat_buil_number(String flat_buil_number) {
-        this.flat_buil_number = flat_buil_number;
     }
 
     public String getLocality() {
@@ -97,14 +89,6 @@ public class Address {
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
-
-   /* public Integer getState_id() {
-        return state_id;
-    }
-
-    public void setState_id(Integer state_id) {
-        this.state_id = state_id;
-    }  */
 
     public States getState() {
         return state;
