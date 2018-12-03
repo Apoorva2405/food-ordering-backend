@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService{
     public User findUserId(Integer id) { return userRepository.findUserId(id); }
 
     @Override
-    public String findUserPasswordId(Integer id){ return userRepository.findUserPasswordId(id); }
+    public User getUserById(Integer id){ return userRepository.findUserPasswordId(id); }
 
     @Override
     public Integer updateUserPassword(String password, Integer id) { return userRepository.updatePassword(password,id);} ;
@@ -45,12 +45,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Integer updateUser(String firstname, String lastname, Integer id)
+    public User updateUser(String firstname, String lastname, Integer id)
     {
         if(null == lastname)
-            return userRepository.updateFirstName(firstname,id);
+            userRepository.updateFirstName(firstname,id);
         else
-            return userRepository.updateDetails(firstname,lastname,id);
+            userRepository.updateDetails(firstname,lastname,id);
+
+
+        User user  =  userRepository.findUserId(id);
+        return user;
     }
 
 }

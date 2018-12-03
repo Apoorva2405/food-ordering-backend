@@ -14,7 +14,7 @@ public interface UserService {
     String findUserPassword(String contactNumber);
 
     // Finds Password corresponding to id.
-    String findUserPasswordId(Integer id);
+    User getUserById(Integer id);
 
     // Finds User Details corresponding to contactNumber.
     User findUser(String contactNumber);
@@ -26,7 +26,7 @@ public interface UserService {
     void addUserDetails(User newuser);
 
     // UpdateUserDetails
-    Integer updateUser(String firstname, String lastname, Integer id);
+    User updateUser(String firstname, String lastname, Integer id);
 
     // UpdatePassword
     Integer updateUserPassword(String password, Integer id);

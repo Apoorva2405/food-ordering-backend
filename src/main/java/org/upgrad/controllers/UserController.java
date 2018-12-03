@@ -131,7 +131,7 @@ public class UserController {
      */
     @PutMapping("")
     @CrossOrigin
-    public ResponseEntity<String> userUpdate(@RequestParam String firstName, @RequestParam(required = false) String lastName, @RequestHeader String accessToken) {
+    public ResponseEntity<?> userUpdate(@RequestParam String firstName, @RequestParam(required = false) String lastName, @RequestHeader String accessToken) {
 
         UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
         // Checking if user is logged in.
@@ -143,12 +143,12 @@ public class UserController {
         } else {
 
             Integer userId =  userAuthTokenService.getUserId(accessToken) ;
+            User user = userService.updateUser(firstName, lastName, userId) ;
+
             // Updating user details.
-            if (userService.updateUser(firstName, lastName, userId) != null) ;
+            if ( user != null) ;
             {
-                // TODO : Response should contain user details not user string
-                User user = userService.findUserId(userId);
-                return new ResponseEntity<>(user.toString(), HttpStatus.CREATED);
+                return new ResponseEntity<>(user, HttpStatus.CREATED);
             }
         }
     }
@@ -174,13 +174,19 @@ public class UserController {
             return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         } else {
 
+
+            Integer userId =  userAuthTokenService.getUserId(accessToken) ;
+
             // Checking if oldpassword matches with password strored in database.
-            String passwordByUser = String.valueOf(userService.findUserPasswordId(usertoken.getUser().getId()));
+            User user = userService.getUserById(userId);
+
+            String passwordByUser = user.getPassword() ;
+
             String oldpasswordsha = Hashing.sha256()
                     .hashString(oldPassword, Charsets.US_ASCII)
                     .toString();
             if (!(passwordByUser.equalsIgnoreCase(oldpasswordsha))) {
-                return new ResponseEntity<>("Your password did not match your old password!", HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>("Your password did not match to your old password!", HttpStatus.UNAUTHORIZED);
             } else if (!newPassword.matches(passpattern)) {
                 return new ResponseEntity<>("Weak password!", HttpStatus.BAD_REQUEST);
             } else {
@@ -189,14 +195,13 @@ public class UserController {
                         .hashString(newPassword, Charsets.US_ASCII)
                         .toString();
 
-                Integer userId =  userAuthTokenService.getUserId(accessToken) ;
+
                 if (null != userService.updateUserPassword(newpasswordsha, userId))
                     flag = true;
             }
 
             return new ResponseEntity<>("Password updated successfully!", HttpStatus.OK);
         }
-
     }
 }
 
