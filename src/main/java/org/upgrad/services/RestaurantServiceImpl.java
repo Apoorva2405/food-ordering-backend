@@ -13,6 +13,7 @@ import org.upgrad.requestResponseEntity.RestaurantResponseCategorySet;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.springframework.data.domain.Sort;
@@ -102,10 +103,10 @@ public class RestaurantServiceImpl implements RestaurantService{
     public RestaurantResponseCategorySet getRestaurantDetails(int id) {
        Restaurant restaurant = restaurantRepository.getRestaurantById(id);
        Iterable<Category> categories = categoryRepository.getCategoriesByRestId(id);
-       Set<CategoryResponse> categorySet = null;
+       Set<CategoryResponse> categorySet = new HashSet<>();
        if (categories.iterator().hasNext()) {
            for(Category category: categories) {
-               Set<Item> items = (Set<Item>) itemRepository.getRestaurantItems(category.getId(),id);
+               Set<Item> items = itemRepository.getRestaurantItems(category.getId(),id);
                CategoryResponse categoryResponse = new CategoryResponse(category.getId(),category.getCategoryName(),items);
                categorySet.add(categoryResponse);
            }
