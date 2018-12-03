@@ -22,7 +22,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Query(nativeQuery = true,value="SELECT * FROM USERS WHERE id=?1")
     User findUserPasswordId(Integer id);
 
-
     // Find user details on bases of contactnumber.
     @Query(nativeQuery = true,value = "SELECT * FROM USERS WHERE contact_number=?1")
     User findUser(String contactNumber);

@@ -1,5 +1,6 @@
 package org.upgrad.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,7 +12,8 @@ public class Item {
     @Id
     private int id;
 
-    private String item_name;
+    @Column(name="item_name")
+    private String itemName;
 
     private int price;
 
@@ -33,12 +35,12 @@ public class Item {
         this.price = price;
     }
 
-    public String getItem_name() {
-        return item_name;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setItem_name(String item_name) {
-        this.item_name = item_name;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public int getId() {
