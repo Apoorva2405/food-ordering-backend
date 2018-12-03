@@ -13,7 +13,7 @@ import org.upgrad.services.UserAuthTokenService;
 import javax.swing.plaf.synth.SynthTextAreaUI;
 
 @RestController
-@RequestMapping("/address")
+@RequestMapping("")
 public class AddressController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class AddressController {
      * This endpoint is used to signup a user.
      * Param - First name , Last name (optional) , Email , Contact number , Password
      */
-    @PostMapping("")
+    @PostMapping("/address")
     @CrossOrigin
     public ResponseEntity<?> address(@RequestParam String flatBuilNo, @RequestParam String locality, @RequestParam String city, @RequestParam Integer stateId, @RequestParam String zipcode, @RequestParam(required = false) String type , @RequestHeader String accessToken) {
 
@@ -83,7 +83,7 @@ public class AddressController {
     /*
     This is used to update address corresponding to addressId
     */
-    @PutMapping("/{addressId}")
+    @PutMapping("/address/{addressId}")
     @CrossOrigin
     public ResponseEntity<?> updateAddressById(@PathVariable Integer addressId , @RequestParam(required = false) String flatBuilNo , @RequestParam(required = false) String locality , @RequestParam(required = false) String city , @RequestParam(required = false) String zipcode , @RequestParam(required = false) Integer stateId , @RequestHeader String accessToken) {
 
@@ -166,7 +166,7 @@ public class AddressController {
     /*
      This is used to delete address corresponding to addressId
      */
-    @DeleteMapping("/{addressId}")
+    @DeleteMapping("/address/{addressId}")
     @CrossOrigin
     public ResponseEntity<?> deleteAddressById(@PathVariable Integer addressId , @RequestHeader String accessToken) {
         System.out.println("add: " + addressId);
@@ -243,7 +243,7 @@ public class AddressController {
 
 
 
-   @GetMapping("/user")
+   @GetMapping("/address/user")
     @CrossOrigin
     public ResponseEntity<?> getAllPermanentAddress(@RequestHeader String accessToken) {
 
