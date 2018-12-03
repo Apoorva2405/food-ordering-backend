@@ -10,8 +10,12 @@ import org.upgrad.models.Restaurant;
 @Repository
 public interface RestaurantRepository extends CrudRepository<Restaurant, Integer> {
 
+    // Retrieves all restaurants in alphabetical order
+    @Query(nativeQuery = true,value="SELECT * FROM RESTAURANT ORDER BY RESTAURANT_NAME ASC")
+    Iterable<Restaurant> findAllSorted();
+
     // Retrieves restaurant based on input restaurant match
-    @Query(nativeQuery = true,value="SELECT * FROM RESTAURANT WHERE RESTAURANT_NAME ILIKE %?1% ORDER BY USER_RATING")
+    @Query(nativeQuery = true,value="SELECT * FROM RESTAURANT WHERE RESTAURANT_NAME ILIKE %?1% ORDER BY RESTAURANT_NAME ASC")
     Iterable<Restaurant> getRestaurantsByRestName(String name);
 
     // Retrieves category id based on restaurant id
@@ -23,14 +27,14 @@ public interface RestaurantRepository extends CrudRepository<Restaurant, Integer
     Restaurant getRestaurantById(int id);
 
     // retrieves restaurant Id according to category name
-    @Query(nativeQuery = true,value="SELECT RESTAURANT_ID from RESTAURANT_CATEGORY as res INNER JOIN CATEGORY on res.CATEGORY_ID = CATEGORY.ID WHERE CATEGORY.CATEGORY_NAME=?1")
+    @Query(nativeQuery = true,value="SELECT RESTAURANT_ID from RESTAURANT_CATEGORY as res INNER JOIN CATEGORY on res.CATEGORY_ID = CATEGORY.ID WHERE UPPER(CATEGORY.CATEGORY_NAME)=UPPER(?1)")
     Iterable<Integer> getRestaurantIdByCategoryName(String name);
 
     // Method to update details for particular user.
     @Transactional
     @Modifying
     @Query(nativeQuery = true,value="UPDATE RESTAURANT SET USER_RATING =?2 WHERE id=?1")
-    Restaurant updateRestaurantDetails(int id, Double rating);
+    Restaurant updateRestaurantDetails(int id, int rating);
 
 }
 
