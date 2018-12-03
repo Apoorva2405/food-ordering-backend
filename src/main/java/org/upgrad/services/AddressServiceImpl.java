@@ -33,7 +33,7 @@ public class AddressServiceImpl implements AddressService{
     @Override
     public Integer addAddress(Address address)
     {
-        return addressRepository.addAddress(address.getFlat_buil_number(), address.getLocality(), address.getCity() , address.getZipcode() , address.getState_id());
+        return addressRepository.addAddress(address.getFlat_buil_number(), address.getLocality(), address.getCity() , address.getZipcode() , address.getState().getId());
     }
 
     // This method is used to check whether the user is logged in or not.
@@ -99,7 +99,7 @@ public class AddressServiceImpl implements AddressService{
         {
             for (Integer addressId: premAddressIdList ) {
                 Address  add = addressRepository.findAddressById(addressId) ;
-                States state = stateRepository.getStatebyId(add.getState_id());
+                States state = stateRepository.getStatebyId(add.getState().getId());
 
 
                 UserPremAddressResponse resp = new UserPremAddressResponse(add.getId(), add.getFlat_buil_number(), add.getLocality(), add.getCity(), add.getZipcode(), state);

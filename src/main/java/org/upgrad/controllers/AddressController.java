@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.upgrad.models.Address;
+import org.upgrad.models.States;
 import org.upgrad.models.UserAuthToken;
 import org.upgrad.services.AddressService;
 import org.upgrad.services.UserAuthTokenService;
@@ -47,8 +48,9 @@ public class AddressController {
 
             if (zipcode.length() == 6 && zipcode.matches("[0-9]+")) {
 
+                States state =   addressService.isValidState(stateId) ;
                 // Check for valid state Id
-                if( addressService.isValidState(stateId) == null) {
+                if( state == null) {
                     message = "No state by this state id!" ;
                     httpStatus = HttpStatus.BAD_REQUEST ;
                 } else
@@ -57,7 +59,7 @@ public class AddressController {
                     int addressId  = addressService.countAddress() + 1 ;
                     String type1 = "temp" ;
                     // Save data in address table.
-                    Address address = new Address(addressId ,flatBuilNo, locality, city, zipcode, stateId);
+                    Address address = new Address(addressId ,flatBuilNo, locality, city, zipcode, state);
                     addressService.addAddress(address);
 
                     // Setting value of type parameter

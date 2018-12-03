@@ -10,6 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.upgrad.models.Address;
 import org.upgrad.models.States;
 import org.upgrad.models.States;
 import org.upgrad.models.UserAuthToken;
@@ -300,7 +301,7 @@ public class AddressControllerTest {
                 .andExpect(content().string(containsString("No permanent address found!")));
     }
 
- /*   @Test
+   @Test
     public void getAddressesByUser() throws Exception{
         String accessToken = "#############################";
         UserAuthToken userAuthToken = new UserAuthToken();
@@ -311,13 +312,13 @@ public class AddressControllerTest {
         List<Address> addresses = singletonList(address);
         Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
         Mockito.when(userAuthTokenService.getUserId(accessToken)).thenReturn(userId);
-        Mockito.when(addressService.getPermAddress(userId)).thenReturn(addresses);
+      //  Mockito.when(addressService.getPermAddress(userId)).thenReturn(addresses);
         String url = "/address/user";
         mvc.perform(get(url)
                 .contentType(MediaType.asMediaType(APPLICATION_JSON))
                 .header("accessToken", accessToken))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$[0].city", Matchers.is("Mumbai")));   }   */
+                .andExpect(jsonPath("$[0].city", Matchers.is("Mumbai")));   }
 
 
 
