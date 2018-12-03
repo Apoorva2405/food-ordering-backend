@@ -6,7 +6,7 @@ import org.upgrad.models.States;
 public interface AddressService {
 
     // Saves userDetails to users table.
-    String isValidState(Integer id);
+    States isValidState(Integer id);
 
     // Saves Data in address table.
     Integer addAddress(Address address);
@@ -20,10 +20,14 @@ public interface AddressService {
 
     Address getaddressById( Integer addressId);
 
+    Boolean getAddress( Integer addressId);
+
     Integer updateAddressById (String flat_build_num , String locality, String city, String zipcode , Integer state_id , Integer id);
 
     Integer deleteAddressById (Integer id );
 
     Integer deleteUserAddressById(Integer id);
+
+    Iterable<Address>  getPermAddress(Integer userId) ;
 
 }

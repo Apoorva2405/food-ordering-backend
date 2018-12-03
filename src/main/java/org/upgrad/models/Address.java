@@ -17,8 +17,16 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    public String getFlatBuilNo() {
+        return flatBuilNo;
+    }
+
+    public void setFlatBuilNo(String flatBuilNo) {
+        this.flatBuilNo = flatBuilNo;
+    }
+
     @Column(name = "flat_buil_number", nullable = false)
-    private String flat_buil_number;
+    private String flatBuilNo;
 
     @Column(name = "locality",nullable = false)
     private String locality;
@@ -29,21 +37,22 @@ public class Address {
     @Column(name = "zipcode", nullable = false)
     private String zipcode;
 
-    @Column(name = "state_id",nullable = false)
-    private Integer state_id;
+    @OneToOne(fetch = FetchType.EAGER)
+    private States state;
+
 
     // Default constructor
     public Address(){
     }
 
     // Parameterized Constructor
-    public Address(Integer id ,String flat_buil_number, String locality, String city, String zipcode, Integer state_id) {
+    public Address(Integer id ,String flat_buil_number, String locality, String city, String zipcode, States state) {
         this.id = id ;
-        this.flat_buil_number = flat_buil_number ;
+        this.flatBuilNo = flat_buil_number ;
         this.city = city ;
         this.locality = locality ;
         this.zipcode = zipcode ;
-        this.state_id = state_id ;
+        this.state = state ;
     }
 
     /*
@@ -55,14 +64,6 @@ public class Address {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getFlat_buil_number() {
-        return flat_buil_number;
-    }
-
-    public void setFlat_buil_number(String flat_buil_number) {
-        this.flat_buil_number = flat_buil_number;
     }
 
     public String getLocality() {
@@ -89,14 +90,13 @@ public class Address {
         this.zipcode = zipcode;
     }
 
-    public Integer getState_id() {
-        return state_id;
+    public States getState() {
+        return state;
     }
 
-    public void setState_id(Integer state_id) {
-        this.state_id = state_id;
+    public void setState(States state) {
+        this.state = state;
     }
-
 
 
 }

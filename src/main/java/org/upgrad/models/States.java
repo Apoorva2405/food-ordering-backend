@@ -15,11 +15,10 @@ public class States {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column(name = "state_name", nullable = false)
-    private String state_name;
+    private String stateName;
 
     /*
         Getters & Setters
@@ -32,12 +31,12 @@ public class States {
         this.id = id;
     }
 
-    public String getState_name() {
-        return state_name;
+    public String getStateName() {
+        return stateName;
     }
 
-    public void setState_name(String state_name) {
-        this.state_name = state_name;
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
     }
 
 

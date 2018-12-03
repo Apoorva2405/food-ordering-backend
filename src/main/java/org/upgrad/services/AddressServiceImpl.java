@@ -8,6 +8,8 @@ import org.upgrad.repositories.AddressRepository;
 
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -26,12 +28,13 @@ public class AddressServiceImpl implements AddressService{
     @Override
     public Integer addAddress(Address address)
     {
-        return addressRepository.addAddress(address.getFlat_buil_number(), address.getLocality(), address.getCity() , address.getZipcode() , address.getState_id());
+        return addressRepository.addAddress(address.getFlatBuilNo(), address.getLocality(), address.getCity() , address.getZipcode() , address.getState().getId());
     }
 
     // This method is used to check whether the user is logged in or not.
     @Override
-    public String isValidState(Integer id) {
+    public States isValidState(Integer id) {
+        System.out.println("State id" + id);
         return stateRepository.isValidState(id);
     }
 
@@ -69,5 +72,37 @@ public class AddressServiceImpl implements AddressService{
     @Override
     public Integer deleteUserAddressById(Integer id) {
         return addressRepository.deleteUserAddressById(id);
+    }
+
+    @Override
+    public Boolean getAddress(Integer addressId){
+
+        if (addressRepository.findAddressById(addressId) == null )
+            return false;
+        else
+            return true ;
+    }
+
+    @Override
+    public  Iterable<Address>  getPermAddress(Integer userId)
+    {
+        List<Address> userList = new ArrayList<>();
+
+        Iterable<Integer> premAddressIdList = addressRepository.getPermAdd(userId);
+
+        if( premAddressIdList.iterator().hasNext() )
+        {
+            for (Integer addressId: premAddressIdList ) {
+                Address  add = addressRepository.findAddressById(addressId) ;
+                States state = stateRepository.getStatebyId(add.getState().getId());
+
+
+                Address resp = new Address(add.getId(), add.getFlatBuilNo(), add.getLocality(), add.getCity(), add.getZipcode(), state);
+                userList.add(resp);
+            }
+        }
+
+
+        return userList;
     }
 }
