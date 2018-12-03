@@ -10,10 +10,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.upgrad.models.Address;
+import org.upgrad.models.*;
 import org.upgrad.models.States;
-import org.upgrad.models.States;
-import org.upgrad.models.UserAuthToken;
 import org.upgrad.services.AddressService;
 import org.upgrad.services.UserAuthTokenService;
 
@@ -386,7 +384,5 @@ public class AddressControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$[0].stateName", Matchers.is("Maharashtra")));
     }
-
-
 
 }
