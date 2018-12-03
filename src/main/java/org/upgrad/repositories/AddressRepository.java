@@ -11,9 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 // This repository interface is responsible for the interaction between the user service with the user database
 
-// CREATE TABLE ADDRESS(id SERIAL, flat_buil_number VARCHAR(255), locality VARCHAR(255),
-// city VARCHAR(30),zipcode VARCHAR(30),
-// state_id INTEGER ,PRIMARY KEY (id),FOREIGN KEY (state_id) REFERENCES STATES(id) ON DELETE CASCADE);
 @Repository
 public interface AddressRepository extends CrudRepository<Address, Integer> {
 
@@ -63,7 +60,6 @@ public interface AddressRepository extends CrudRepository<Address, Integer> {
     Integer deleteUserAddressById( Integer id);
 
     @Query(nativeQuery = true,value = "SELECT address_id  FROM USER_ADDRESS where type = 'prem' and user_id = ?1 ")
-   // @Query(nativeQuery = true,value = "SELECT address_id  FROM USER_ADDRESS where user_id = ?1 ")
     Iterable<Integer> getPermAdd(Integer id);
 
 }

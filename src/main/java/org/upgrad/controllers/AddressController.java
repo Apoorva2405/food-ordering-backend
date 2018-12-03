@@ -166,14 +166,14 @@ public class AddressController {
      */
     @DeleteMapping("/{addressId}")
     @CrossOrigin
-    public ResponseEntity<?> deleteAddressById(@PathVariable Integer addressId , @RequestHeader String accesstoken) {
+    public ResponseEntity<?> deleteAddressById(@PathVariable Integer addressId , @RequestHeader String accessToken) {
         System.out.println("add: " + addressId);
-        System.out.println("aT: " + accesstoken);
+        System.out.println("aT: " + accessToken);
 
         String message = "";
         HttpStatus httpStatus = HttpStatus.OK;
 
-        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accesstoken);
+        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
 
         System.out.println(" USER TOKEN " + usertoken);
         // Checking if user is logged in.
@@ -181,15 +181,18 @@ public class AddressController {
             message = "Please Login first to access this endpoint!";
             httpStatus = HttpStatus.UNAUTHORIZED;
         } // checking if user is not logged out.
-        else if (userAuthTokenService.isUserLoggedIn(accesstoken).getLogoutAt() != null) {
+        else if (userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() != null) {
             message = "You have already logged out. Please Login first to access this endpoint!";
             httpStatus = HttpStatus.UNAUTHORIZED;
         } else {
 
-            // Check if address exists for supplied addressId
-            Address add = addressService.getaddressById(addressId);
+            System.out.println("HERE" + addressId) ;
 
-            if (add == null) {
+
+            // Check if address exists for supplied addressId
+            Boolean add = addressService.getAddress(addressId);
+
+            if (add == false) {
                 message = "No address with this address id!";
                 httpStatus = HttpStatus.BAD_REQUEST;
             } else {
