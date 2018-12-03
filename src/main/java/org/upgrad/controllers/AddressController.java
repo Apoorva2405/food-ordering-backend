@@ -81,12 +81,12 @@ public class AddressController {
     */
     @PutMapping("/{addressId}")
     @CrossOrigin
-    public ResponseEntity<?> updateAddressById(@PathVariable Integer addressId , @RequestParam(required = false) String flatBuildingNumber , @RequestParam(required = false) String locality , @RequestParam(required = false) String city , @RequestParam(required = false) String zipcode , @RequestParam(required = false) Integer state_id , @RequestHeader String accesstoken) {
+    public ResponseEntity<?> updateAddressById(@PathVariable Integer addressId , @RequestParam(required = false) String flatBuilNo , @RequestParam(required = false) String locality , @RequestParam(required = false) String city , @RequestParam(required = false) String zipcode , @RequestParam(required = false) Integer stateId , @RequestHeader String accessToken) {
 
         String message = "" ;
         HttpStatus httpStatus = HttpStatus.OK ;
 
-        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accesstoken);
+        UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
 
         System.out.println(" USER TOKEN "+ usertoken) ;
         // Checking if user is logged in.
@@ -94,11 +94,11 @@ public class AddressController {
             message = "Please Login first to access this endpoint!" ;
             httpStatus =  HttpStatus.UNAUTHORIZED ;
         } // checking if user is not logged out.
-        else if (userAuthTokenService.isUserLoggedIn(accesstoken).getLogoutAt() != null) {
+        else if (userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() != null) {
             message = "You have already logged out. Please Login first to access this endpoint!" ;
             httpStatus =  HttpStatus.UNAUTHORIZED ;
         } else {
-            Integer userId = userAuthTokenService.getUserId(accesstoken);
+            Integer userId = userAuthTokenService.getUserId(accessToken);
 
             // Zipcode Validation check
             if (zipcode != null ){
@@ -110,25 +110,31 @@ public class AddressController {
 
             // Valid State check
             boolean validState  = false ;
-            if (state_id != null) {
-                if(  addressService.isValidState(state_id) == null) {
+
+            System.out.println("Sugandha" + stateId);
+            System.out.println("Sugandha" + stateId.toString());
+
+
+            System.out.println("Sugandha valid state" +  addressService.isValidState(stateId));
+
+            if (stateId != null) {
+                if (addressService.isValidState(stateId) == null) {
                     message = "No state by this state id!";
                     httpStatus = HttpStatus.BAD_REQUEST;
-                }
-                else
-                    validState = true ;
+                } else
+                    validState = true;
             }
 
             if (validState == true) {
 
                 // Check if address exists for supplied addressId
-                Address add = addressService.getaddressById(addressId);
+                Boolean  add = addressService.getAddress(addressId);
 
                 if (add == null) {
                     message = "No address with this address id!";
                     httpStatus = HttpStatus.BAD_REQUEST;
                 } else {
-                    if (flatBuildingNumber == null)
+                   /*  if (flatBuildingNumber == null)
                         flatBuildingNumber = add.getFlat_buil_number();
 
                     if (locality == null)
@@ -141,10 +147,10 @@ public class AddressController {
                         zipcode = add.getZipcode();
 
                     if (state_id == null)
-                        state_id = add.getState_id();
+                        state_id = add.getState_id();  */
 
                     // Update Address
-                    addressService.updateAddressById(flatBuildingNumber, locality, city, zipcode, state_id, addressId);
+                    addressService.updateAddressById(flatBuilNo, locality, city, zipcode, stateId, addressId);
 
                     message = "Address has been updated successfully!";
                     httpStatus = HttpStatus.OK ;

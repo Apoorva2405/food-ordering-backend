@@ -213,7 +213,7 @@ public class AddressControllerTest {
                 .andExpect(content().string(containsString("Invalid zipcode!")));
     }
 
-   /* @Test
+    @Test
     public void updateAddressWithInvalifAddressId() throws Exception{
         String flatBuilNo = "123/32 Nishuvi Building";
         String locality = "Worli";
@@ -236,9 +236,9 @@ public class AddressControllerTest {
                 .header("accessToken", accessToken))
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().string(containsString("No address with this address id!")));
-    }  */
+    }
 
- /*    @Test
+     @Test
     public void updateAddress() throws Exception{
         String flatBuilNo = "123/32 Nishuvi Building";
         String locality = "Worli";
@@ -261,7 +261,7 @@ public class AddressControllerTest {
                 .header("accessToken", accessToken))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().string(containsString("Address has been updated successfully!")));
-   } */
+   }
  //
 //    @Test
 //    public void getAddressesWithoutLogin() throws Exception{

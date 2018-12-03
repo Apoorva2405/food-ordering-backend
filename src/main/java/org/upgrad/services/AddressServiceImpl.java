@@ -31,7 +31,8 @@ public class AddressServiceImpl implements AddressService{
 
     // This method is used to check whether the user is logged in or not.
     @Override
-    public String isValidState(Integer id) {
+    public States isValidState(Integer id) {
+        System.out.println("State id" + id);
         return stateRepository.isValidState(id);
     }
 
@@ -69,5 +70,14 @@ public class AddressServiceImpl implements AddressService{
     @Override
     public Integer deleteUserAddressById(Integer id) {
         return addressRepository.deleteUserAddressById(id);
+    }
+
+    @Override
+    public Boolean getAddress(Integer addressId){
+
+        if (addressRepository.findAddressById(addressId) == null )
+            return false;
+        else
+            return true ;
     }
 }
