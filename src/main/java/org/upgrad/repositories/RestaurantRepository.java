@@ -19,7 +19,7 @@ public interface RestaurantRepository extends CrudRepository<Restaurant, Integer
     Iterable<Restaurant> getRestaurantsByRestName(String name);
 
     // Retrieves category id based on restaurant id
-    @Query(nativeQuery = true,value="SELECT CATEGORY_ID FROM RESTAURANT_CATEGORY WHERE RESTAURANT_ID=?1")
+    @Query(nativeQuery = true,value="SELECT CATEGORY_ID FROM RESTAURANT_CATEGORY INNER JOIN CATEGORY on CATEGORY.ID= RESTAURANT_CATEGORY.CATEGORY_ID WHERE RESTAURANT_ID=?1 ORDER BY CATEGORY.CATEGORY_NAME ASC")
     Iterable<Integer> getCategoryId(int id);
 
     // retrieves all restaurant based on id
