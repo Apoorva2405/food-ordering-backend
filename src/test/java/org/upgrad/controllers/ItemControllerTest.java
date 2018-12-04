@@ -57,7 +57,7 @@ public class ItemControllerTest {
         Item item = new Item();
         item.setItemName("Pasta");
         List<Item> items = singletonList(item);
-        //Mockito.when(restaurantService.getRestaurantDetails(1)).thenReturn(restaurant);
+        Mockito.when(restaurantService.getRestaurantDetails(1)).thenReturn(restaurant);
         Mockito.when(itemService.getItemByPopularity(1)).thenReturn(items);
         String url = "/item/restaurant/1";
         mvc.perform(get(url))

@@ -111,17 +111,17 @@ public class RestaurantControllerTest {
                 .andExpect(content().string(containsString("No Restaurant by this id!")));
     }
 
-//    @Test
-//    public void getRestaurantById() throws Exception{
-//        RestaurantResponseCategorySet restaurant = new RestaurantResponseCategorySet();
-//        restaurant.setId(1);
-//        restaurant.setRestaurantName("dominoz");
-//        Mockito.when(restaurantService.getRestaurantDetails(1)).thenReturn(restaurant);
-//        String url = "/restaurant/1";
-//        mvc.perform(get(url))
-//                .andExpect(status().is2xxSuccessful())
-//                .andExpect(jsonPath("$.restaurantName", Matchers.is("dominoz")));
-//    }
+    @Test
+    public void getRestaurantById() throws Exception{
+        RestaurantResponseCategorySet restaurant = new RestaurantResponseCategorySet();
+        restaurant.setId(1);
+        restaurant.setRestaurantName("dominoz");
+        Mockito.when(restaurantService.getRestaurantDetails(1)).thenReturn(restaurant);
+        String url = "/restaurant/1";
+        mvc.perform(get(url))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("$.restaurantName", Matchers.is("dominoz")));
+    }
 
 
     @Test

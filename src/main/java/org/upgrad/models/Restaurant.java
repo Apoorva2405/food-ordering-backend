@@ -36,8 +36,6 @@ public class Restaurant{
 
     @OneToMany(fetch = FetchType.EAGER)
 
-    @Transient
-    private Iterable<Category> categories;
 
     // Getters and setters for variables
 
@@ -98,12 +96,5 @@ public class Restaurant{
         this.address = address;
     }
 
-    public Iterable<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Iterable<Category> category) {
-        this.categories = category;
-    }
 
 }
