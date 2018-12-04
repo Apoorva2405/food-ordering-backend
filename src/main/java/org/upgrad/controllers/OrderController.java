@@ -44,7 +44,6 @@ public class OrderController {
     //Retrieve all the past orders from the user sorted by their order date, with the newest order first
 
     @GetMapping("")
-
     ResponseEntity<?> getPastOrdersOfUser(@RequestHeader String accessToken) {
 
         UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
