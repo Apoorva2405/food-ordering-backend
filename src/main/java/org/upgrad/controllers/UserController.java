@@ -113,7 +113,7 @@ public class UserController {
 
 
     /**
-     * This is POST API that logout a user if already login
+     * This is PUT API that logout a user if already login
      * @Header accessToken that identify whether user is logged in or not
      * @return whether user is logged out or not
      */
@@ -132,10 +132,12 @@ public class UserController {
     }
 
 
-    /*
-     * This endpoint is used to update user details
-     * Authentication is required to access this endpoint, so accessToken is taken as request header to make sure user is authenticated.
-     *
+    /**
+     * This is PUT API that updates details of already existing user
+     * @param firstName firstname of the user
+     * @param lastName lastname of the user
+     * @Header accessToken that identifies if user is logged in or not
+     * @return whether user details are updated.
      */
     @PutMapping("")
     @CrossOrigin
@@ -161,10 +163,12 @@ public class UserController {
         }
     }
 
-    /*
-     * This endpoint is used to update user details
-     * Authentication is required to access this endpoint, so accessToken is taken as request header to make sure user is authenticated.
-     *
+    /**
+     * This is PUT API that changes password of the user
+     * @param oldPassword oldpassword of the user
+     * @param  newPassword newpassword of the user
+     * @Header accessToken that identifies if user is logged in or not
+     * @return whether password of user is changed or not
      */
     @PutMapping("/password")
     @CrossOrigin
@@ -181,7 +185,6 @@ public class UserController {
         else if (null != userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()) {
             return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         } else {
-
 
             Integer userId =  userAuthTokenService.getUserId(accessToken) ;
 
@@ -202,7 +205,6 @@ public class UserController {
                 String newpasswordsha = Hashing.sha256()
                         .hashString(newPassword, Charsets.US_ASCII)
                         .toString();
-
 
                 if (null != userService.updateUserPassword(newpasswordsha, userId))
                     flag = true;

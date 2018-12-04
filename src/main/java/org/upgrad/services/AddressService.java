@@ -3,6 +3,10 @@ package org.upgrad.services;
 import org.upgrad.models.Address;
 import org.upgrad.models.States;
 
+/*
+ * This AddressService interface gives the list of all the service that exist in the address service implementation class.
+ * Controller class will be calling the service methods by this interface.
+ */
 public interface AddressService {
 
     // Returns state corresponding to stateid
