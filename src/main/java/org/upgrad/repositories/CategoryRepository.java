@@ -16,11 +16,11 @@ public interface CategoryRepository extends CrudRepository<Category,Integer> {
     Iterable<Category> getCategories();
 
     // Get category details by name.
-    @Query(nativeQuery = true,value = "SELECT * FROM CATEGORY WHERE CATEGORY_NAME=?1")
+    @Query(nativeQuery = true,value = "SELECT * FROM CATEGORY WHERE UPPER(CATEGORY_NAME)=UPPER(?1)")
     Category getCategoryByName(String categoryName);
 
     // Get category count by name.
-    @Query(nativeQuery = true,value = "SELECT count(*) FROM CATEGORY WHERE CATEGORY_NAME=?1")
+    @Query(nativeQuery = true,value = "SELECT count(*) FROM CATEGORY WHERE UPPER(CATEGORY_NAME)=UPPER(?1)")
     Integer getCategoryCountByName(String categoryName);
 
     // Get category count by id.

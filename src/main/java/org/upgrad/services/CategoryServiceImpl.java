@@ -24,22 +24,12 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public Category getCategory(String categoryName){
-
-        // Case insenstive Check
-        String s1 = categoryName.substring(0, 1).toUpperCase();
-        String nameCapitalized = s1 + categoryName.substring(1).toLowerCase();
-
-        return categoryRepository.getCategoryByName(nameCapitalized);
+        return categoryRepository.getCategoryByName(categoryName);
 }
 
     @Override
     public Integer getCategoryCount(String categoryName){
-
-        // Case insenstive Check
-        String s1 = categoryName.substring(0, 1).toUpperCase();
-        String nameCapitalized = s1 + categoryName.substring(1).toLowerCase();
-
-        return categoryRepository.getCategoryCountByName(nameCapitalized);
+        return categoryRepository.getCategoryCountByName(categoryName);
     }
 
 }
