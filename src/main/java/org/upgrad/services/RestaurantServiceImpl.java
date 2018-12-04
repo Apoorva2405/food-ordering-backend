@@ -102,6 +102,7 @@ public class RestaurantServiceImpl implements RestaurantService{
     @Override
     public RestaurantResponseCategorySet getRestaurantDetails(int id) {
        Restaurant restaurant = restaurantRepository.getRestaurantById(id);
+        RestaurantResponseCategorySet restaurantResponseCategorySet = null;
        Iterable<Category> categories = categoryRepository.getCategoriesByRestId(id);
        Set<CategoryResponse> categorySet = new HashSet<>();
        if (categories.iterator().hasNext()) {
@@ -111,7 +112,9 @@ public class RestaurantServiceImpl implements RestaurantService{
                categorySet.add(categoryResponse);
            }
        }
-       RestaurantResponseCategorySet restaurantResponseCategorySet = new RestaurantResponseCategorySet(id,restaurant.getRestaurantName(),restaurant.getPhotoUrl(),restaurant.getUserRating(),restaurant.getAvgPrice(),restaurant.getNumberUsersRated(),restaurant.getAddress(),categorySet);
+       if (restaurant!=null) {
+           restaurantResponseCategorySet = new RestaurantResponseCategorySet(id,restaurant.getRestaurantName(),restaurant.getPhotoUrl(),restaurant.getUserRating(),restaurant.getAvgPrice(),restaurant.getNumberUsersRated(),restaurant.getAddress(),categorySet);
+       }
        return restaurantResponseCategorySet;
     }
 
