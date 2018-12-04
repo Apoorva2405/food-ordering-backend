@@ -14,9 +14,10 @@ public interface ItemRepository extends CrudRepository<Item,Integer> {
     Set<Item> getRestaurantItems(int catId, int restaurantId);
 
 
-    @Query(nativeQuery = true,value="SELECT ITEM_ID FROM ORDER_ITEM WHERE ITEM_ID IN(SELECT ITEM_ID FROM RESTAURANT_ITEM WHERE RESTAURANT_ID=?1) GROUP BY ITEM_ID ORDER BY COUNT(*) DESC LIMIT 5)")
+    @Query(nativeQuery = true,value="SELECT ITEM_ID FROM ORDER_ITEM WHERE ITEM_ID IN(SELECT ITEM_ID FROM RESTAURANT_ITEM WHERE RESTAURANT_ID=?1) GROUP BY ITEM_ID ORDER BY COUNT(*) DESC LIMIT 5")
     Iterable<Integer> getItems(int restaurantId);
 
+    @Query(nativeQuery = true,value="SELECT * FROM ITEM WHERE ID=?1 ")
     Item getItemById(int id);
 
 }
