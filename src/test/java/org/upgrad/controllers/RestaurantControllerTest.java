@@ -168,29 +168,29 @@ public class RestaurantControllerTest {
                 .andExpect(content().string(containsString("No Restaurant by this id!")));
     }
 
-//    @Test
-//    public void updateRestaurantRating() throws Exception{
-//        String accessToken = "#############################";
-//        UserAuthToken userAuthToken = new UserAuthToken();
-//        RestaurantResponseCategorySet restaurant = new RestaurantResponseCategorySet();
-//        restaurant.setId(1);
-//        restaurant.setRestaurantName("dominoz");
-//        Restaurant restaurant1 = new Restaurant();
-//        restaurant1.setId(1);
-//        String rating = "4";
-//        restaurant1.setUserRating(4.2);
-//        restaurant1.setRestaurantName("dominoz");
-//        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
-//        Mockito.when(restaurantService.getRestaurantDetails(1)).thenReturn(restaurant);
-//        Mockito.when(restaurantService.updateRating(4, 1)).thenReturn(restaurant1);
-//        String url = "/restaurant/1";
-//        mvc.perform(put(url)
-//                .contentType(MediaType.asMediaType(APPLICATION_JSON))
-//                .param("rating",rating)
-//                .header("accessToken", accessToken))
-//                .andExpect(status().is2xxSuccessful())
-//                .andExpect(jsonPath("$.userRating", Matchers.is(4.2)))
-//                .andExpect(jsonPath("$.restaurantName", Matchers.is("dominoz")));
-//    }
+    @Test
+    public void updateRestaurantRating() throws Exception{
+        String accessToken = "#############################";
+        UserAuthToken userAuthToken = new UserAuthToken();
+        RestaurantResponseCategorySet restaurant = new RestaurantResponseCategorySet();
+        restaurant.setId(1);
+        restaurant.setRestaurantName("dominoz");
+        Restaurant restaurant1 = new Restaurant();
+        restaurant1.setId(1);
+        String rating = "4";
+        restaurant1.setUserRating(4.2);
+        restaurant1.setRestaurantName("dominoz");
+        Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
+        Mockito.when(restaurantService.getRestaurantDetails(1)).thenReturn(restaurant);
+        Mockito.when(restaurantService.updateRating(4, 1)).thenReturn(restaurant1);
+        String url = "/restaurant/1";
+        mvc.perform(put(url)
+                .contentType(MediaType.asMediaType(APPLICATION_JSON))
+                .param("rating",rating)
+                .header("accessToken", accessToken))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("$.userRating", Matchers.is(4.2)))
+                .andExpect(jsonPath("$.restaurantName", Matchers.is("dominoz")));
+    }
 
 }
