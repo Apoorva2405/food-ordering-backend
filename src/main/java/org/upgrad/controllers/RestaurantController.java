@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.upgrad.models.Restaurant;
 //import org.upgrad.models.RestaurantResponse;
 import org.upgrad.requestResponseEntity.RestaurantResponse;
+import org.upgrad.requestResponseEntity.RestaurantResponseCategorySet;
 import org.upgrad.services.RestaurantService;
 import org.upgrad.services.UserAuthTokenService;
 import java.util.List;
@@ -70,7 +71,7 @@ public class RestaurantController {
      */
     @GetMapping("/{restaurantId}")
     public ResponseEntity<?> getRestaurantById(@PathVariable int restaurantId) {
-        Restaurant restaurant =  restaurantService.getRestaurantDetails(restaurantId);
+        RestaurantResponseCategorySet restaurant =  restaurantService.getRestaurantDetails(restaurantId);
         if (restaurant!=null) {
             return new ResponseEntity<>(restaurant, HttpStatus.OK);
         }
@@ -88,7 +89,7 @@ public class RestaurantController {
      */
     @PutMapping("/{restaurantId}")
     @CrossOrigin
-    public ResponseEntity<?> updateRestaurantDetails(@PathVariable int restaurantId, @RequestParam Double rating, @RequestHeader String accessToken) {
+    public ResponseEntity<?> updateRestaurantDetails(@PathVariable int restaurantId, @RequestParam int rating, @RequestHeader String accessToken) {
         if (userAuthTokenService.isUserLoggedIn(accessToken) == null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         } else if (userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() != null) {
