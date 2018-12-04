@@ -18,6 +18,7 @@ public class PaymentController {
     private UserAuthTokenService userAuthTokenService;
 
     @GetMapping("/payment")
+    @CrossOrigin
     ResponseEntity<?> getCouponByCouponName(@RequestHeader String accessToken) {
 
         UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
