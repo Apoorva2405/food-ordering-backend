@@ -36,9 +36,7 @@ public class Restaurant{
 
     @OneToMany(fetch = FetchType.EAGER)
 
-
     // Getters and setters for variables
-
     public int getId() {
         return id;
     }

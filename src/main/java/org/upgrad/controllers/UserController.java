@@ -26,9 +26,15 @@ public class UserController {
     @Autowired
     private UserAuthTokenService userAuthTokenService;
 
-    /*
-     * This endpoint is used to signup a user.
-     * Param - First name , Last name (optional) , Email , Contact number , Password
+
+    /**
+     * This is POST API that sigup new user
+     * @param firstName firstname of the user
+     * @param lastName lastname of the user
+     * @param email email of the user
+     * @param contactNumber contact number of user
+     * @param password password of user
+     * @return whether user is signup or not.
      */
     @PostMapping("/signup")
     @CrossOrigin
@@ -37,11 +43,10 @@ public class UserController {
         // Finding if the user with corresponding contactNumber exists or not
         User user = userService.findUser(contactNumber);
 
-        // If it exists, then send error
-        if (user != null) {
+        // If user already exsits
+        if (null != user) {
             return new ResponseEntity<>("Try any other contact number, this contact number has already been registered!", HttpStatus.BAD_REQUEST);
         } else {
-
             // Checks for valid email id -> x@x.co
             String EMAIL_PATTERN =
                     "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -56,10 +61,6 @@ public class UserController {
             }
 
             // Checks for strong password
-            boolean hasUpper = false;
-            boolean hasDigit = false;
-            boolean specialChar = password.matches("[#@$%&*!^]+");
-
             String passpattern = "(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}";
 
             if (!password.matches(passpattern))
@@ -78,9 +79,11 @@ public class UserController {
         return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
-    /*
-     * This endpoint is used to login a user.
-     * Here contact number and password has to be provided to match the credentials.
+    /**
+     * This is POST API that login a user if it is valid user
+     * @param contactNumber contact number of user
+     * @param password password of user
+     * @return accessToken (unique identifier) which identifies whether user is logged in or not.
      */
     @PostMapping("/login")
     @CrossOrigin
@@ -89,11 +92,13 @@ public class UserController {
         String sha256hex = Hashing.sha256()
                 .hashString(password, Charsets.US_ASCII)
                 .toString();
+        // Find if user already exists
         if (userService.findUserPassword(contactNumber) == null)
             return new ResponseEntity<>("This contact number has not been registered!", HttpStatus.OK);
         else if (!(passwordByUser.equalsIgnoreCase(sha256hex))) {
             return new ResponseEntity<>("Invalid Credentials", HttpStatus.UNAUTHORIZED);
         } else {
+            // Find valid user and returns its access token.
             User user = userService.findUser(contactNumber);
             String accessToken = UUID.randomUUID().toString();
             userAuthTokenService.addAccessToken(user.getId(), accessToken);
@@ -106,9 +111,11 @@ public class UserController {
         }
     }
 
-    /*
-     * This endpoint is used to logout a user.
-     * Authentication is required to access this endpoint, so accessToken is taken as request header to make sure user is authenticated.
+
+    /**
+     * This is PUT API that logout a user if already login
+     * @Header accessToken that identify whether user is logged in or not
+     * @return whether user is logged out or not
      */
     @PutMapping("/logout")
     @CrossOrigin
@@ -118,16 +125,19 @@ public class UserController {
         } else if (userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() != null) {
             return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         } else {
+            // Remove AccessToken from DB.
             userAuthTokenService.removeAccessToken(accessToken);
             return new ResponseEntity<>("You have logged out successfully!", HttpStatus.OK);
         }
     }
 
 
-    /*
-     * This endpoint is used to update user details
-     * Authentication is required to access this endpoint, so accessToken is taken as request header to make sure user is authenticated.
-     *
+    /**
+     * This is PUT API that updates details of already existing user
+     * @param firstName firstname of the user
+     * @param lastName lastname of the user
+     * @Header accessToken that identifies if user is logged in or not
+     * @return whether user details are updated.
      */
     @PutMapping("")
     @CrossOrigin
@@ -153,10 +163,12 @@ public class UserController {
         }
     }
 
-    /*
-     * This endpoint is used to update user details
-     * Authentication is required to access this endpoint, so accessToken is taken as request header to make sure user is authenticated.
-     *
+    /**
+     * This is PUT API that changes password of the user
+     * @param oldPassword oldpassword of the user
+     * @param  newPassword newpassword of the user
+     * @Header accessToken that identifies if user is logged in or not
+     * @return whether password of user is changed or not
      */
     @PutMapping("/password")
     @CrossOrigin
@@ -173,7 +185,6 @@ public class UserController {
         else if (null != userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()) {
             return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         } else {
-
 
             Integer userId =  userAuthTokenService.getUserId(accessToken) ;
 
@@ -194,7 +205,6 @@ public class UserController {
                 String newpasswordsha = Hashing.sha256()
                         .hashString(newPassword, Charsets.US_ASCII)
                         .toString();
-
 
                 if (null != userService.updateUserPassword(newpasswordsha, userId))
                     flag = true;

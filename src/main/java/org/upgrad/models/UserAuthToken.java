@@ -35,15 +35,18 @@ public class UserAuthToken {
     @Column(name = "logout_at")
     private Date logoutAt;
 
+    // Default Constructor
     public UserAuthToken() {
     }
 
+    // Parameterized Constructor
     public UserAuthToken(User user, @NotNull String accessToken, @NotNull Date loginAt) {
         this.user = user;
         this.accessToken = accessToken;
         this.loginAt = loginAt;
     }
 
+    // Getters & Setters
     public long getId() {
         return id;
     }
