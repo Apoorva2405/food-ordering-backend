@@ -31,9 +31,7 @@ public class Coupon {
         this.percent = percent;
     }
 
-    /*
-        Getters & Setters
-     */
+    //Getters & Setters
     public Integer getId() {
         return id;
     }
