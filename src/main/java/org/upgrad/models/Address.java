@@ -55,9 +55,7 @@ public class Address {
         this.state = state ;
     }
 
-    /*
-        Getter & Setters
-     */
+    //Getter & Setters
     public Integer getId() {
         return id;
     }

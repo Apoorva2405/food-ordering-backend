@@ -6,83 +6,81 @@ import org.upgrad.models.States;
 import org.upgrad.repositories.StateRepository;
 import org.upgrad.repositories.AddressRepository;
 
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+    This class contains implementation of all address related methods.
+ */
 @Service
 @Transactional
 public class AddressServiceImpl implements AddressService{
 
     private final StateRepository stateRepository ;
     private final AddressRepository addressRepository;
-   // private final UserRepository userRepository;
 
     public AddressServiceImpl(AddressRepository addressRepository, StateRepository stateRepository) {
         this.addressRepository = addressRepository;
         this.stateRepository = stateRepository;
     }
 
-    // Add address to add address to address table.
+    // Add address to to address table.
     @Override
-    public Integer addAddress(Address address)
-    {
-        return addressRepository.addAddress(address.getFlatBuilNo(), address.getLocality(), address.getCity() , address.getZipcode() , address.getState().getId());
-    }
+    public Integer addAddress(Address address) { return addressRepository.addAddress(address.getFlatBuilNo(), address.getLocality(), address.getCity() , address.getZipcode() , address.getState().getId()); }
 
-    // This method is used to check whether the user is logged in or not.
+    // Returns details of state.
     @Override
-    public States isValidState(Integer id) {
-        System.out.println("State id" + id);
-        return stateRepository.isValidState(id);
-    }
+    public States isValidState(Integer id) { return stateRepository.isValidState(id); }
 
+    // Returns max addressId present in Db
     @Override
     public Integer countAddress(){
         return addressRepository.countAddress() ;
     }
 
+    // Adds Address in User_Address table
     @Override
-    public Integer addUserAddress(String temp, Integer user_id, Integer address_id)
-    {
-        return addressRepository.addUserAddress(temp, user_id, address_id);
-    }
+    public Integer addUserAddress(String temp, Integer user_id, Integer address_id) { return addressRepository.addUserAddress(temp, user_id, address_id); }
 
+    // Returns details of states.
     @Override
     public Iterable<States> getAllStates() {
         return stateRepository.getAllStates();
     }
 
+    // Returns address corresponding to addressId
     @Override
     public Address getaddressById( Integer addressId) { return addressRepository.findAddressById(addressId) ;}
 
+    // Updates the address corresponding to addressId
     @Override
     public Integer updateAddressById (String flat_build_num , String locality, String city, String zipcode , Integer state_id , Integer id)
     {
         return addressRepository.updateAddressById(flat_build_num,locality,city,zipcode,state_id,id);
     }
 
+    // Deletes address corresponding to addressId
     @Override
     public Integer deleteAddressById (Integer id )
     {
         return addressRepository.deleteAddressById(id);
     }
 
+    // Deletes user_address corresponding to addressId
     @Override
-    public Integer deleteUserAddressById(Integer id) {
-        return addressRepository.deleteUserAddressById(id);
-    }
+    public Integer deleteUserAddressById(Integer id) { return addressRepository.deleteUserAddressById(id); }
 
+    // Returns true if address is present otherwise returns false.
     @Override
     public Boolean getAddress(Integer addressId){
-
         if (addressRepository.findAddressById(addressId) == null )
             return false;
         else
             return true ;
     }
 
+    // Iterates and returns Perm Address in specified format.
     @Override
     public  Iterable<Address>  getPermAddress(Integer userId)
     {
@@ -96,13 +94,10 @@ public class AddressServiceImpl implements AddressService{
                 Address  add = addressRepository.findAddressById(addressId) ;
                 States state = stateRepository.getStatebyId(add.getState().getId());
 
-
                 Address resp = new Address(add.getId(), add.getFlatBuilNo(), add.getLocality(), add.getCity(), add.getZipcode(), state);
                 userList.add(resp);
             }
         }
-
-
         return userList;
     }
 }

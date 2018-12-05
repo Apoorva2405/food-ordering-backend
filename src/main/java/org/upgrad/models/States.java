@@ -13,16 +13,13 @@ import javax.persistence.*;
 @Table(name = "STATES")
 public class States {
 
-
     @Id
     private int id;
 
     @Column(name = "state_name", nullable = false)
     private String stateName;
 
-    /*
-        Getters & Setters
-     */
+    //Getters & Setters
     public Integer getId() {
         return id;
     }

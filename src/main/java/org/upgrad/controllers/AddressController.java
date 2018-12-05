@@ -10,8 +10,6 @@ import org.upgrad.models.UserAuthToken;
 import org.upgrad.services.AddressService;
 import org.upgrad.services.UserAuthTokenService;
 
-import javax.swing.plaf.synth.SynthTextAreaUI;
-
 @RestController
 @RequestMapping("")
 public class AddressController {
@@ -23,9 +21,15 @@ public class AddressController {
     private UserAuthTokenService userAuthTokenService;
 
 
-    /*
-     * This endpoint is used to signup a user.
-     * Param - First name , Last name (optional) , Email , Contact number , Password
+    /**
+     * This is POST API that saves the address in database if address is valid address.
+     * @param flatBuilNo flat/building number
+     * @param locality  locality
+     * @param city city name
+     * @param zipcode valid 6 digit code
+     * @param stateId state where the address belongs to
+     * @Header accessToken to identify if the user is logged in or not
+     * @return whether address is saved in DB or not.
      */
     @PostMapping("/address")
     @CrossOrigin
@@ -36,42 +40,37 @@ public class AddressController {
 
         UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
         // Checking if user is logged in.
-        if (usertoken == null) {
+        if (null == usertoken) {
             message = "Please Login first to access this endpoint!" ;
             httpStatus =  HttpStatus.UNAUTHORIZED ;
         } // checking if user is not logged out.
-        else if (userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() != null) {
+        else if (null != userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()) {
             message = "You have already logged out. Please Login first to access this endpoint!" ;
             httpStatus =  HttpStatus.UNAUTHORIZED ;
         } else {
             Integer userId = userAuthTokenService.getUserId(accessToken);
 
-            if (zipcode.length() == 6 && zipcode.matches("[0-9]+")) {
-
+            // Valid zipcode check
+            if (6 == zipcode.length() && zipcode.matches("[0-9]+")) {
                 States state =   addressService.isValidState(stateId) ;
-                // Check for valid state Id
-                if( state == null) {
-                    message = "No state by this state id!" ;
-                    httpStatus = HttpStatus.BAD_REQUEST ;
-                } else
-                {
 
-                    int addressId  = addressService.countAddress() + 1 ;
-                    String type1 = "temp" ;
-                    // Save data in address table.
-                    Address address = new Address(addressId ,flatBuilNo, locality, city, zipcode, state);
-                    addressService.addAddress(address);
+                // Generating address Id
+                int addressId  = addressService.countAddress() + 1 ;
+                String type1 = "temp" ;
 
-                    // Setting value of type parameter
-                        if ( type !=null )
-                            type1 = type ;
+                // Save data in address table.
+                Address address = new Address(addressId ,flatBuilNo, locality, city, zipcode, state);
+                addressService.addAddress(address);
 
-                        // Save data in userAddress table
-                        addressService.addUserAddress(type1, userId, addressId) ;
+                // Setting value of type parameter
+                if ( null != type )
+                    type1 = type ;
 
-                    message ="Address has been saved successfully!" ;
-                    httpStatus = HttpStatus.CREATED ;
-                }
+                // Save data in userAddress table
+                addressService.addUserAddress(type1, userId, addressId) ;
+
+                message ="Address has been saved successfully!" ;
+                httpStatus = HttpStatus.CREATED ;
             } else {
                 message = "Invalid zipcode!" ;
                 httpStatus = HttpStatus.BAD_REQUEST ;
@@ -80,9 +79,17 @@ public class AddressController {
         return new ResponseEntity<>(message , httpStatus);
     }
 
-    /*
-    This is used to update address corresponding to addressId
-    */
+    /**
+     * This is PUT API that updates address in database if address already exists
+     * @pathVariable addressId  Id of address that is already present in DB
+     * @param flatBuilNo flat/building number
+     * @param locality  locality
+     * @param city city name
+     * @param zipcode valid 6 digit code
+     * @param stateId state where the address belongs to
+     * @Header accessToken to identify if the user is logged in or not
+     * @return whether address is updated in DB or not
+     */
     @PutMapping("/address/{addressId}")
     @CrossOrigin
     public ResponseEntity<?> updateAddressById(@PathVariable Integer addressId , @RequestParam(required = false) String flatBuilNo , @RequestParam(required = false) String locality , @RequestParam(required = false) String city , @RequestParam(required = false) String zipcode , @RequestParam(required = false) Integer stateId , @RequestHeader String accessToken) {
@@ -92,13 +99,12 @@ public class AddressController {
 
         UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
 
-        System.out.println(" USER TOKEN "+ usertoken) ;
         // Checking if user is logged in.
-        if (usertoken == null) {
+        if (null == usertoken) {
             message = "Please Login first to access this endpoint!" ;
             httpStatus =  HttpStatus.UNAUTHORIZED ;
         } // checking if user is not logged out.
-        else if (userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() != null) {
+        else if (null != userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() ) {
             message = "You have already logged out. Please Login first to access this endpoint!" ;
             httpStatus =  HttpStatus.UNAUTHORIZED ;
         } else {
@@ -110,91 +116,69 @@ public class AddressController {
                     return new ResponseEntity<>("Invalid zipcode!" , HttpStatus.BAD_REQUEST);
                 }
             }
-            // Valid State check
-            boolean validState  = false ;
 
-            System.out.println("Sugandha" + stateId);
-            System.out.println("Sugandha" + stateId.toString());
+            // Check if address exists for supplied addressId
+            Boolean  astatus = addressService.getAddress(addressId);
+            Address add = addressService.getaddressById(addressId);
 
+            if (false == astatus) {
+                message = "No address with this address id!";
+                httpStatus = HttpStatus.BAD_REQUEST;
+            } else {
+                // If value is not supplied as parameters than take previous values.
+                if (null == flatBuilNo)
+                    flatBuilNo = add.getFlatBuilNo();
 
-            System.out.println("Sugandha valid state" +  addressService.isValidState(stateId));
+                if (null == locality)
+                    locality = add.getLocality();
 
-            if (stateId != null) {
-                if (addressService.isValidState(stateId) == null) {
-                    message = "No state by this state id!";
-                    httpStatus = HttpStatus.BAD_REQUEST;
-                } else
-                    validState = true;
-            }
+                if (null == city)
+                    city = add.getCity();
 
-            if (validState == true) {
+                if (null == zipcode)
+                    zipcode = add.getZipcode();
 
-                // Check if address exists for supplied addressId
-                Boolean  add = addressService.getAddress(addressId);
+                if (null == stateId)
+                    stateId = add.getState().getId() ;
 
-                if (add == null) {
-                    message = "No address with this address id!";
-                    httpStatus = HttpStatus.BAD_REQUEST;
-                } else {
-                   /*  if (flatBuildingNumber == null)
-                        flatBuildingNumber = add.getFlat_buil_number();
+                // Update Address
+                addressService.updateAddressById(flatBuilNo, locality, city, zipcode, stateId, addressId);
 
-                    if (locality == null)
-                        locality = add.getLocality();
-
-                    if (city == null)
-                        city = add.getCity();
-
-                    if (zipcode == null)
-                        zipcode = add.getZipcode();
-
-                    if (state_id == null)
-                        state_id = add.getState_id();  */
-
-                    // Update Address
-                    addressService.updateAddressById(flatBuilNo, locality, city, zipcode, stateId, addressId);
-
-                    message = "Address has been updated successfully!";
-                    httpStatus = HttpStatus.OK ;
-                }
+                message = "Address has been updated successfully!";
+                httpStatus = HttpStatus.OK ;
             }
         }
         return new ResponseEntity<>(message , httpStatus);
     }
 
-
-    /*
-     This is used to delete address corresponding to addressId
+    /**
+     * This is DELETE API that deletes address in database if address already exists.
+     * @pathVariable addressId  Id of address that is already present in DB.
+     * @Header accessToken to identify if the user is logged in or not.
+     * @return whether address is deleted in DB or not.
      */
     @DeleteMapping("/address/{addressId}")
     @CrossOrigin
     public ResponseEntity<?> deleteAddressById(@PathVariable Integer addressId , @RequestHeader String accessToken) {
-        System.out.println("add: " + addressId);
-        System.out.println("aT: " + accessToken);
 
         String message = "";
         HttpStatus httpStatus = HttpStatus.OK;
 
         UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
 
-        System.out.println(" USER TOKEN " + usertoken);
         // Checking if user is logged in.
-        if (usertoken == null) {
+        if (null == usertoken) {
             message = "Please Login first to access this endpoint!";
             httpStatus = HttpStatus.UNAUTHORIZED;
         } // checking if user is not logged out.
-        else if (userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() != null) {
+        else if (null != userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() ) {
             message = "You have already logged out. Please Login first to access this endpoint!";
             httpStatus = HttpStatus.UNAUTHORIZED;
         } else {
-
-            System.out.println("HERE" + addressId) ;
-
-
             // Check if address exists for supplied addressId
             Boolean add = addressService.getAddress(addressId);
 
-            if (add == false) {
+            if (false == add ) {
                 message = "No address with this address id!";
                 httpStatus = HttpStatus.BAD_REQUEST;
             } else {
@@ -210,40 +194,12 @@ public class AddressController {
         return new ResponseEntity<>(message , httpStatus);
     }
 
-
-       /*
-    Get All Permanent Addresses - “/api/address/user”
-
-    It should be a GET request.
-
-    Access to this endpoint requires authentication.
-
-    This endpoint must request the following value from the user:
-
-        Access token - String
-
-    If the user is not logged in and tries to access this endpoint,
-    return the JSON response "Please Login first to access this endpoint!" with the corresponding HTTP status.
-
-    If the user has already logged out and tries to log out again,
-    return the JSON response “You have already logged out. Please
-     Login first to access this endpoint!” with the corresponding HTTP status.
-
-    If the user has logged in successfully, and:
-
-        If this user has not provided a  permanent address,
-        return the JSON response "No permanent address found!" with the corresponding HTTP status.
-
-        If there are some permanent addresses saved for
-         this user in the database, retrieve all the
-          permanent addresses and display the response in a JSON format with the corresponding HTTP status.
-
-        Here is a link to a sample JSON response.
+    /**
+     * This is Get API that returns permanent address for the logged in user
+     * @Header accessToken to identify if the user is logged in or not.
+     * @return returns permanent address for the logged in user
      */
-
-
-
-   @GetMapping("/address/user")
+    @GetMapping("/address/user")
     @CrossOrigin
     public ResponseEntity<?> getAllPermanentAddress(@RequestHeader String accessToken) {
 
@@ -252,11 +208,11 @@ public class AddressController {
 
         UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
         // Checking if user is logged in.
-        if (usertoken == null) {
+        if (null == usertoken) {
             message = "Please Login first to access this endpoint!" ;
             httpStatus =  HttpStatus.UNAUTHORIZED ;
         } // checking if user is not logged out.
-        else if (userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() != null) {
+        else if (null != userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() ) {
             message = "You have already logged out. Please Login first to access this endpoint!" ;
             httpStatus =  HttpStatus.UNAUTHORIZED ;
         } else {
@@ -269,24 +225,17 @@ public class AddressController {
             }
             else
             {
-
-             //   message =   addressService.getPermAddress(userId) ;
+                // Returns corresponding details in required JSON format
                 return new ResponseEntity<>( addressService.getPermAddress(userId) , HttpStatus.OK);
-
             }
-
-
         }
-
-
         return new ResponseEntity<>(message , httpStatus);
     }
 
 
-
-
-    /*
-     This is used to get details of all states.
+    /**
+     * This is Get API that returns all states that are present in DB.
+     * @return returns all states.
      */
     @GetMapping("/states")
     public ResponseEntity<?> getAllPermanentAddress() {

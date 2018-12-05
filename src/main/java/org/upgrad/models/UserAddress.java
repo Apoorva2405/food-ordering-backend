@@ -12,10 +12,6 @@ import javax.persistence.*;
 @Table(name = "USER_ADDRESS")
 public class UserAddress {
 
-    // CREATE TABLE USER_ADDRESS(id SERIAL,type VARCHAR(10) DEFAULT 'temp',user_id
-    // INTEGER NOT NULL,address_id INTEGER NOT NULL ,PRIMARY KEY (id), FOREIGN KEY (user_id) REFERENCES USERS(id)
-    // ON DELETE CASCADE,FOREIGN KEY (address_id) REFERENCES ADDRESS(id) ON DELETE CASCADE);
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -29,5 +25,36 @@ public class UserAddress {
     @Column(name = "address_id", nullable = false)
     private String address_id ;
 
+    //Getters & Setters
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getAddress_id() {
+        return address_id;
+    }
+
+    public void setAddress_id(String address_id) {
+        this.address_id = address_id;
+    }
 }
