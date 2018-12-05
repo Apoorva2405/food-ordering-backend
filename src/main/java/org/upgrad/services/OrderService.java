@@ -5,6 +5,7 @@ import org.upgrad.models.Order;
 import org.upgrad.models.OrderItem;
 import org.upgrad.requestResponseEntity.PastOrderResponse;
 
+import java.util.Date;
 import java.util.List;
 
 /*
@@ -25,4 +26,19 @@ public interface OrderService {
 
     //Get orders details by UserId
     List<Order> getOrdersByUser(Integer id);
+
+    //saveOrder with temporary address
+    void addOrder(Integer orderId,double bill, Integer couponId, double discount, Date date, Integer paymentId,Integer userId, Integer addressId);
+
+    //saveOrder with perm address
+    void addOrderWithPermAddress(Integer orderId,double bill, Integer couponId, double discount, Date date, Integer paymentId,Integer userId, Integer addressId);
+
+    //saveOrderItems
+    void addOrderItem(Integer id, Integer orderId,Integer itemId,Integer quantity,Integer price);
+
+    //find latest order id
+    Integer findLatestOrderId();
+
+    //find latest orderItem id
+    Integer findLatestOrderItemId();
 }

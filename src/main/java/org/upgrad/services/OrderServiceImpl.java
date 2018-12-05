@@ -12,6 +12,7 @@ import org.upgrad.requestResponseEntity.PastOrderResponse;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -62,6 +63,39 @@ public class OrderServiceImpl implements OrderService{
         }
 
         return ordersByUser;
+    }
+
+    // Save the order with temporary address
+    @Override
+    public void addOrder(Integer orderId,double bill, Integer couponId, double discount, Date date, Integer paymentId, Integer userId, Integer addressId) {
+        orderRepository.addOrder(orderId,bill,couponId,discount,date,paymentId,userId,addressId);
+
+    }
+
+    // Save the order with perm address
+    @Override
+    public void addOrderWithPermAddress(Integer orderId,double bill, Integer couponId, double discount, Date date, Integer paymentId, Integer userId, Integer addressId) {
+        orderRepository.addOrder(orderId,bill,couponId,discount,date,paymentId,userId,addressId);
+
+    }
+
+    // Get the last saved order id
+    @Override
+    public Integer findLatestOrderId(){
+        return orderRepository.findLatestOrderId();
+    }
+
+    // Get the last saved orderItem id
+    @Override
+    public Integer findLatestOrderItemId(){
+        return orderItemRepository.findLatestOrderItemId();
+    }
+
+    // save the orderItem
+    @Override
+    public void addOrderItem(Integer id, Integer orderId,Integer itemId,Integer quantity,Integer price) {
+
+        orderItemRepository.addOrderItem(id,orderId,itemId,quantity,price);
     }
 
     //Get the order details without response format

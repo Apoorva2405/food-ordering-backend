@@ -14,6 +14,8 @@ import org.upgrad.models.Coupon;
 import org.upgrad.models.Order;
 import org.upgrad.requestResponseEntity.ItemQuantity;
 import org.upgrad.models.UserAuthToken;
+import org.upgrad.services.AddressService;
+import org.upgrad.services.ItemService;
 import org.upgrad.services.OrderService;
 import org.upgrad.services.UserAuthTokenService;
 
@@ -45,6 +47,12 @@ public class OrderControllerTest {
 
     @MockBean
     private UserAuthTokenService userAuthTokenService;
+
+    @MockBean
+    private AddressService addressService;
+
+    @MockBean
+    private ItemService itemService;
 
     @Test
     public void getCouponWithoutLogin() throws Exception{
@@ -158,8 +166,7 @@ public class OrderControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$[0].bill", Matchers.is(1200.0)));
     }
-
-
+    
     @Test
     public void saveOrdersWithoutLogin() throws Exception{
         String addressId = "1";
@@ -293,7 +300,7 @@ public class OrderControllerTest {
 
     }
 
-  /*  @Test
+    @Test
     public void saveOrder() throws Exception{
         String addressId = "1";
         String paymentId = "2";
@@ -311,7 +318,7 @@ public class OrderControllerTest {
         Integer orderId = 9;
         Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
         Mockito.when(userAuthTokenService.getUserId(accessToken)).thenReturn(userId);
-        Mockito.when(orderService.addOrderWithPermAddress(1,2,userId,itemQuantities,1200.0,couponId,600.0)).thenReturn(orderId);
+        //Mockito.when(orderService.addOrderWithPermAddress(1,2,userId,itemQuantities,1200.0,couponId,600.0)).thenReturn(orderId);
         String url = "/order";
         mvc.perform(post(url)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -323,8 +330,6 @@ public class OrderControllerTest {
                 .header("accessToken", accessToken))
                 .andExpect(status().is2xxSuccessful());
 
-    }  */
-
-
+    }
 
 }
