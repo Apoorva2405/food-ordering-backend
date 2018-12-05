@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 import org.upgrad.models.Category;
 import org.upgrad.models.Item;
 
+import java.util.Set;
+
 @Repository
 public interface CategoryRepository extends CrudRepository<Category,Integer> {
 
@@ -29,7 +31,7 @@ public interface CategoryRepository extends CrudRepository<Category,Integer> {
     String getCategoryNameById(int id);
 
 
-    @Query(nativeQuery = true,value = "SELECT CATEGORY.* FROM CATEGORY INNER JOIN RESTAURANT_CATEGORY ON CATEGORY.ID=RESTAURANT_CATEGORY.CATEGORY_ID WHERE RESTAURANT_ID=?1")
-    Iterable<Category> getCategoriesByRestId(int id);
+    @Query(nativeQuery = true,value = "SELECT CATEGORY.* FROM CATEGORY INNER JOIN RESTAURANT_CATEGORY ON CATEGORY.ID=RESTAURANT_CATEGORY.CATEGORY_ID WHERE RESTAURANT_ID=?1 ORDER BY CATEGORY.CATEGORY_NAME ASC")
+    Set<Category> getCategoriesByRestId(int id);
 
 }

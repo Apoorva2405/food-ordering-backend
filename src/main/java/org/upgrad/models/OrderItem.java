@@ -39,7 +39,6 @@ public class OrderItem {
     public OrderItem(){}
 
     /*Parameterized constructor*/
-
     public OrderItem(Order order, Item item, Integer quantity, Integer price) {
         this.order = order;
         this.item = item;
@@ -48,7 +47,6 @@ public class OrderItem {
     }
 
     //Getter and setter methods
-
 
     public Integer getId() {
         return id;
