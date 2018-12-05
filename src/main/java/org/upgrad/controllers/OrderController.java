@@ -10,9 +10,7 @@ import org.upgrad.requestResponseEntity.PastOrderResponse;
 import org.upgrad.services.*;
 
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/order")
@@ -25,15 +23,13 @@ public class OrderController {
     @Autowired
     private AddressService addressService;
     @Autowired
-    private UserService userService;
-    @Autowired
     private ItemService itemService;
 
     //If the coupon name entered by the user matches any coupon in the database, retrieve the coupon details
 
     @GetMapping("/coupon/{couponName}")
     @CrossOrigin
-    ResponseEntity<?> getCouponByCouponName(@RequestParam(required = false) String couponName, @RequestHeader String accessToken) {
+    ResponseEntity<?> getCouponByCouponName(@RequestParam String couponName, @RequestHeader String accessToken) {
 
         UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
 
@@ -43,11 +39,17 @@ public class OrderController {
         } // checking if user is not logged out.
         else if (userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() != null)  {
             return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
-        } else if (orderService.getCoupon(couponName)!= null){
-            return new ResponseEntity<>(orderService.getCoupon(couponName), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<>("Invalid Coupon!", HttpStatus.NOT_FOUND);
+
+            Coupon coupon = orderService.getCoupon(couponName);
+
+            if (coupon != null){
+                return new ResponseEntity<>(coupon, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>("Invalid Coupon!", HttpStatus.NOT_FOUND);
+            }
         }
     }
 
