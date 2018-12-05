@@ -29,7 +29,7 @@ public class OrderController {
 
     @GetMapping("/coupon/{couponName}")
     @CrossOrigin
-    ResponseEntity<?> getCouponByCouponName(@RequestParam String couponName, @RequestHeader String accessToken) {
+    ResponseEntity<?> getCouponByCouponName(@PathVariable String couponName, @RequestHeader String accessToken) {
 
         UserAuthToken usertoken = userAuthTokenService.isUserLoggedIn(accessToken);
 
