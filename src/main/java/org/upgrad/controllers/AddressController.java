@@ -225,8 +225,14 @@ public class AddressController {
             }
             else
             {
-                // Returns corresponding details in required JSON format
-                return new ResponseEntity<>( addressService.getPermAddress(userId) , HttpStatus.OK);
+                if (null == addressService.getPermAddress(userId)) {
+                    message = "No permanent address found!";
+                    httpStatus = HttpStatus.BAD_REQUEST ;
+                }
+                else {
+                    // Returns corresponding details in required JSON format
+                    return new ResponseEntity<>(addressService.getPermAddress(userId), HttpStatus.OK);
+                }
             }
         }
         return new ResponseEntity<>(message , httpStatus);
