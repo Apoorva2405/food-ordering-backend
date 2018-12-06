@@ -14,6 +14,7 @@ import org.upgrad.models.Coupon;
 import org.upgrad.models.Order;
 import org.upgrad.requestResponseEntity.ItemQuantity;
 import org.upgrad.models.UserAuthToken;
+import org.upgrad.requestResponseEntity.PastOrderResponse;
 import org.upgrad.services.AddressService;
 import org.upgrad.services.ItemService;
 import org.upgrad.services.OrderService;
@@ -153,13 +154,13 @@ public class OrderControllerTest {
     public void getOrdersByUser() throws Exception{
         String accessToken = "#############################";
         UserAuthToken userAuthToken = new UserAuthToken();
-        Order order = new Order();
+        PastOrderResponse order = new PastOrderResponse();
         order.setBill(1200.0);
-        List<Order> orders = singletonList(order);
+        List<PastOrderResponse> orders = singletonList(order);
         Integer userId = 1;
         Mockito.when(userAuthTokenService.isUserLoggedIn(accessToken)).thenReturn(userAuthToken);
         Mockito.when(userAuthTokenService.getUserId(accessToken)).thenReturn(userId);
-        Mockito.when(orderService.getOrdersByUser(userId)).thenReturn(orders);
+        Mockito.when(orderService.getOrdersResponseByUser(userId)).thenReturn(orders);
         String url = "/order";
         mvc.perform(get(url)
                 .header("accessToken", accessToken))
