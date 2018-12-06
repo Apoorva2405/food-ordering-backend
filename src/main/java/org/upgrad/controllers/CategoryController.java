@@ -3,6 +3,7 @@ package org.upgrad.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ public class CategoryController {
         This is used to get all categories that are stored in DB.
      */
     @GetMapping("/category")
+    @CrossOrigin
     public ResponseEntity<?> getAllCategories() {
         return new ResponseEntity<>(categoryService.getAllCategories(), HttpStatus.OK);
     }
@@ -28,6 +30,7 @@ public class CategoryController {
         This function returns the category details corresponding to category name.
      */
     @GetMapping("/category/{categoryName}")
+    @CrossOrigin
     public ResponseEntity<?> getCategoriesByName(@PathVariable("categoryName") String categoryName) {
         Category category = categoryService.getCategory(categoryName);
         if (category != null) {

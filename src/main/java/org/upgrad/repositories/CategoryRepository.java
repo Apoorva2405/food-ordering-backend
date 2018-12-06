@@ -12,7 +12,7 @@ import java.util.Set;
 public interface CategoryRepository extends CrudRepository<Category,Integer> {
 
     // Get all category details.
-    @Query(nativeQuery = true,value = "SELECT * FROM CATEGORY")
+    @Query(nativeQuery = true,value = "SELECT * FROM CATEGORY ORDER BY CATEGORY_NAME ASC")
     Iterable<Category> getCategories();
 
     // Get category details by name.
