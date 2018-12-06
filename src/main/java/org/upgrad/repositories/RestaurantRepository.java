@@ -33,8 +33,8 @@ public interface RestaurantRepository extends CrudRepository<Restaurant, Integer
     // Method to update details for particular user.
     @Transactional
     @Modifying
-    @Query(nativeQuery = true,value="UPDATE RESTAURANT SET USER_RATING =?2 WHERE id=?1")
-    int updateRestaurantDetails(int id, int rating);
+    @Query(nativeQuery = true,value="UPDATE RESTAURANT SET USER_RATING =?2,NUMBER_OF_USERS_RATED=?3 WHERE id=?1")
+    int updateRestaurantDetails(int id, double rating, int numberOfUsers);
 
 }
 
