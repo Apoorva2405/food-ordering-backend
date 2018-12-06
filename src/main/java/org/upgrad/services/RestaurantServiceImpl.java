@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.upgrad.models.Category;
 import org.upgrad.models.Item;
 import org.upgrad.models.Restaurant;
-//import org.upgrad.models.RestaurantResponse;
 import org.upgrad.requestResponseEntity.CategoryResponse;
 import org.upgrad.requestResponseEntity.RestaurantResponse;
 import org.upgrad.repositories.*;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.springframework.data.domain.Sort;
 
 @Service
 @Transactional
@@ -122,7 +120,11 @@ public class RestaurantServiceImpl implements RestaurantService{
     public Restaurant updateRating(int id,int rating) {
         Restaurant restaurant = restaurantRepository.getRestaurantById(id);
         if (restaurant!=null) {
-            restaurantRepository.updateRestaurantDetails(id,rating);
+            restaurant.setNumberUsersRated(restaurant.getNumberUsersRated() + 1);
+            Double newRating = ((restaurant.getUserRating() * restaurant.getNumberUsersRated()) + rating) / restaurant.getNumberUsersRated();
+            Double roundOff = (double) Math.round(newRating * 100.0) / 100.0;
+            restaurant.setUserRating(roundOff);
+            restaurantRepository.updateRestaurantDetails(id, roundOff, restaurant.getNumberUsersRated());
         }
         return restaurant;
     }
