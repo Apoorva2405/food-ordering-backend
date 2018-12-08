@@ -53,7 +53,7 @@ public interface AddressRepository extends CrudRepository<Address, Integer> {
     Integer deleteUserAddressById( Integer id);
 
     // Method to get Permanent Address details for a user
-    @Query(nativeQuery = true,value = "SELECT address_id  FROM USER_ADDRESS where type = 'prem' and user_id = ?1 ")
+    @Query(nativeQuery = true,value = "SELECT address_id  FROM USER_ADDRESS where type = 'perm' and user_id = ?1 ")
     Iterable<Integer> getPermAdd(Integer id);
 
 }
