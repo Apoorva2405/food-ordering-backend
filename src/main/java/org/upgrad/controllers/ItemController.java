@@ -3,10 +3,7 @@ package org.upgrad.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.upgrad.models.Item;
 import org.upgrad.services.ItemService;
 
@@ -25,6 +22,7 @@ public class ItemController {
      * @return restaurant details
      */
     @GetMapping("/{restaurantId}")
+    @CrossOrigin
     public ResponseEntity<?> getItemById(@PathVariable int restaurantId) {
         List<Item> item =  itemService.getItemByPopularity(restaurantId);
 
