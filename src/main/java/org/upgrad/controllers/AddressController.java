@@ -238,6 +238,7 @@ public class AddressController {
      * @return returns all states.
      */
     @GetMapping("/states")
+    @CrossOrigin
     public ResponseEntity<?> getAllPermanentAddress() {
         return new ResponseEntity<>( addressService.getAllStates() , HttpStatus.OK);
     }
