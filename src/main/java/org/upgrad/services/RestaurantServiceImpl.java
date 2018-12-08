@@ -130,9 +130,7 @@ public class RestaurantServiceImpl implements RestaurantService{
         if (restaurant != null) {
             restaurant.setNumberUsersRated(restaurant.getNumberUsersRated() + 1);
             Double newRating = ((restaurant.getUserRating() * restaurant.getNumberUsersRated()) + rating) / restaurant.getNumberUsersRated();
-            Double roundOff = (double) Math.round(newRating * 100.0) / 100.0;
-            restaurant.setUserRating(roundOff);
-            restaurantRepository.updateRestaurantDetails(id, roundOff, restaurant.getNumberUsersRated());
+            restaurantRepository.updateRestaurantDetails(id, newRating, restaurant.getNumberUsersRated());
         }
         return restaurant;
     }

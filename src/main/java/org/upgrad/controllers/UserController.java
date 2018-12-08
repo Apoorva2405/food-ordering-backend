@@ -188,7 +188,7 @@ public class UserController {
 
             Integer userId =  userAuthTokenService.getUserId(accessToken) ;
 
-            // Checking if oldpassword matches with password strored in database.
+            // Checking if oldpassword matches with password stored in database.
             User user = userService.getUserById(userId);
 
             String passwordByUser = user.getPassword() ;

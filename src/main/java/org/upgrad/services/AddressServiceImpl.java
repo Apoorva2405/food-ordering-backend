@@ -86,11 +86,11 @@ public class AddressServiceImpl implements AddressService{
     {
         List<Address> userList = new ArrayList<>();
 
-        Iterable<Integer> premAddressIdList = addressRepository.getPermAdd(userId);
+        Iterable<Integer> permAddressIdList = addressRepository.getPermAdd(userId);
 
-        if( premAddressIdList.iterator().hasNext() )
+        if( permAddressIdList.iterator().hasNext() )
         {
-            for (Integer addressId: premAddressIdList ) {
+            for (Integer addressId: permAddressIdList ) {
                 Address  add = addressRepository.findAddressById(addressId) ;
                 States state = stateRepository.getStatebyId(add.getState().getId());
 
