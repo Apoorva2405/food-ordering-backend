@@ -10,6 +10,9 @@ import org.upgrad.repositories.UserRepository;
 import java.util.Date;
 import java.util.Optional;
 
+/*
+    This class contains implementation of all userAuthToken related methods.
+ */
 @Service
 @Transactional
 public class UserAuthTokenServiceImpl implements UserAuthTokenService {
@@ -26,7 +29,7 @@ public class UserAuthTokenServiceImpl implements UserAuthTokenService {
     @Override
     public void addAccessToken(Integer userId, String accessToken) {
         Optional<User> user = userRepository.findById(userId);
-        Date date =new Date();
+        Date date = new Date();
         UserAuthToken userAuthToken = new UserAuthToken(user.get(),accessToken,date);
         userAuthTokenRepository.save(userAuthToken);
     }
@@ -39,10 +42,9 @@ public class UserAuthTokenServiceImpl implements UserAuthTokenService {
 
     // This method is used to check whether the user is logged in or not
     @Override
-    public UserAuthToken isUserLoggedIn(String accessToken) {
-        return userAuthTokenRepository.isUserLoggedIn(accessToken);
-    }
+    public UserAuthToken isUserLoggedIn(String accessToken) { return userAuthTokenRepository.isUserLoggedIn(accessToken); }
 
+    //This method is used to get the userid by using accessToken
     @Override
     public Integer getUserId(String accessToken)
     {

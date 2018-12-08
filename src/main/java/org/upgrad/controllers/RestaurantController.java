@@ -28,6 +28,7 @@ public class RestaurantController {
      * @return returns all restaurants
      */
     @GetMapping("")
+    @CrossOrigin
     public ResponseEntity<?> getAllRestaurants() {
         return new ResponseEntity<>(restaurantService.getAllRestaurant(), HttpStatus.OK);
     }
@@ -38,6 +39,7 @@ public class RestaurantController {
      * @return all restaurants by restaurantName along with categories
      */
     @GetMapping("/name/{restaurantName}")
+    @CrossOrigin
     public ResponseEntity<?> getAllRestaurantsByRestaurantName(@PathVariable String restaurantName) {
         Iterable<RestaurantResponse> restaurant = restaurantService.getRestaurantByName(restaurantName);
         if (restaurant!=null && restaurant.iterator().hasNext()) {
@@ -54,6 +56,7 @@ public class RestaurantController {
      * @return all restaurants for input category name
      */
     @GetMapping("category/{categoryName}")
+    @CrossOrigin
     public ResponseEntity<?> getRestaurantsByCategoryName(@PathVariable String categoryName) {
         List<RestaurantResponse> restaurant = (List<RestaurantResponse>) restaurantService.getRestaurantByCategory(categoryName);
         if (restaurant!=null && restaurant.size()!=0) {
@@ -70,6 +73,7 @@ public class RestaurantController {
      * @return restaurant details
      */
     @GetMapping("/{restaurantId}")
+    @CrossOrigin
     public ResponseEntity<?> getRestaurantById(@PathVariable int restaurantId) {
         RestaurantResponseCategorySet restaurant =  restaurantService.getRestaurantDetails(restaurantId);
         if (restaurant!=null) {

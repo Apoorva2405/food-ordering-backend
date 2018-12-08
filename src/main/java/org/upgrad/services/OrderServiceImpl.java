@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/*
+    This class contains implementation of all order service related methods.
+ */
+
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService{
@@ -29,14 +33,17 @@ public class OrderServiceImpl implements OrderService{
         this.orderItemRepository=orderItemRepository;
     }
 
+    // This method is used to get the coupon details from the database by using name
     @Override
     public Coupon getCoupon(String couponName){
         return couponRepository.getCouponByName(couponName);
     }
 
+    // This method is used to get all the OrderItem details from the database by using order id
     @Override
     public Iterable<OrderItem> getOrderItemsByOrderId(Integer id){ return orderItemRepository.getOrderItemsByOrderId(id); }
 
+    // This method is used to get the order details from the database by using user id
     @Override
     public Iterable<PastOrderResponse> getOrdersResponseByUser(Integer id){
 
@@ -48,7 +55,7 @@ public class OrderServiceImpl implements OrderService{
             //Getting the orderitem details for each order id
             Iterable<OrderItem> orderItem = orderItemRepository.getOrderItemsByOrderId(ord.getId());
             List<OrderItemResponse> orderItemList = new ArrayList<>();
-            if (orderItem!=null) {
+            if (orderItem != null) {
                 for (OrderItem oItemList: orderItem) {
                     //Add the orderitem details to the response list
                     OrderItemResponse orderItemResponse = new OrderItemResponse(oItemList.getId(),oItemList.getItem(),oItemList.getQuantity(),
