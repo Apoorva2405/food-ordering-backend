@@ -16,6 +16,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/*
+    This class contains implementation of all Restaurant related methods.
+ */
+
 @Service
 @Transactional
 public class RestaurantServiceImpl implements RestaurantService{
@@ -35,6 +39,7 @@ public class RestaurantServiceImpl implements RestaurantService{
         this.restaurantRepository = restaurantRepository;
     }
 
+    // This method is used to get all the restaurant details from the database
     @Override
     public Iterable<RestaurantResponse> getAllRestaurant() {
         List<RestaurantResponse> restaurants = new ArrayList<>();
@@ -42,7 +47,7 @@ public class RestaurantServiceImpl implements RestaurantService{
         for (Restaurant restaurant: rest) {
             List<String> categoryList = new ArrayList<>();
             List<Integer> catIds = (List<Integer>) restaurantRepository.getCategoryId(restaurant.getId());
-            if (catIds.size()!=0) {
+            if (catIds.size()!= 0) {
                 for (Integer catid: catIds) {
                     String restCategory = categoryRepository.getCategoryNameById(catid);
                     categoryList.add(restCategory);
@@ -54,14 +59,14 @@ public class RestaurantServiceImpl implements RestaurantService{
         return restaurants;
     }
 
-
+    // This method is used to get the restaurant details from the database by it's name
     @Override
     public Iterable<RestaurantResponse> getRestaurantByName(String name) {
         List<RestaurantResponse> restaurants = new ArrayList<>();
         Iterable<Restaurant> restaurantList = restaurantRepository.getRestaurantsByRestName(name);
 
         if (restaurantList.iterator().hasNext()) {
-            for (Restaurant restaurant: restaurantList) {
+            for (Restaurant restaurant : restaurantList) {
                 List<Integer> catIds = (List<Integer>) restaurantRepository.getCategoryId(restaurant.getId());
                 List<String> categoryList = new ArrayList<>();
                 if (catIds.size()!=0) {
@@ -77,10 +82,11 @@ public class RestaurantServiceImpl implements RestaurantService{
         return restaurants;
     }
 
+    // This method is used to get the restaurant details from the database by using categoryName
     @Override
     public Iterable<RestaurantResponse> getRestaurantByCategory(String categoryName) {
         List<RestaurantResponse> restaurants = new ArrayList<>();
-        Iterable<Integer> restaurant_ids= restaurantRepository.getRestaurantIdByCategoryName(categoryName);
+        Iterable<Integer> restaurant_ids = restaurantRepository.getRestaurantIdByCategoryName(categoryName);
         for (Integer resId : restaurant_ids) {
             Restaurant restaurant = restaurantRepository.getRestaurantById(resId);
             Iterable<Integer> catIds = restaurantRepository.getCategoryId(resId);
@@ -97,6 +103,7 @@ public class RestaurantServiceImpl implements RestaurantService{
         return restaurants;
     }
 
+    // This method is used to get all the restaurant details from the database by using id
     @Override
     public RestaurantResponseCategorySet getRestaurantDetails(int id) {
        Restaurant restaurant = restaurantRepository.getRestaurantById(id);
@@ -116,10 +123,11 @@ public class RestaurantServiceImpl implements RestaurantService{
        return restaurantResponseCategorySet;
     }
 
+    // This method is used to update the restaurant rating
     @Override
     public Restaurant updateRating(int id,int rating) {
         Restaurant restaurant = restaurantRepository.getRestaurantById(id);
-        if (restaurant!=null) {
+        if (restaurant != null) {
             restaurant.setNumberUsersRated(restaurant.getNumberUsersRated() + 1);
             Double newRating = ((restaurant.getUserRating() * restaurant.getNumberUsersRated()) + rating) / restaurant.getNumberUsersRated();
             Double roundOff = (double) Math.round(newRating * 100.0) / 100.0;

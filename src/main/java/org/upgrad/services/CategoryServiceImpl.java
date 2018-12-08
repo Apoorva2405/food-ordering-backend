@@ -43,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService{
 
              nameCapitalized = s1 + categoryName.substring(1,index+1).toLowerCase() + s2 + categoryName.substring(index+2).toLowerCase();
         }
-        
+
         return categoryRepository.getCategoryByName(nameCapitalized);
 }
 
