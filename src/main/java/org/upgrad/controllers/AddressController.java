@@ -10,6 +10,8 @@ import org.upgrad.models.UserAuthToken;
 import org.upgrad.services.AddressService;
 import org.upgrad.services.UserAuthTokenService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("")
 public class AddressController {
@@ -218,21 +220,18 @@ public class AddressController {
         } else {
             Integer userId = userAuthTokenService.getUserId(accessToken);
 
-            if ( addressService.getPermAddress(userId)  == null )
+            List<Address> userList = (List<Address>) addressService.getPermAddress(userId);
+
+            if ( null == userList || userList.isEmpty())
             {
                 message = "No permanent address found!" ;
                 httpStatus = HttpStatus.BAD_REQUEST ;
+                return new ResponseEntity<>(message , httpStatus);
             }
             else
             {
-                if (null == addressService.getPermAddress(userId)) {
-                    message = "No permanent address found!";
-                    httpStatus = HttpStatus.BAD_REQUEST ;
-                }
-                else {
                     // Returns corresponding details in required JSON format
                     return new ResponseEntity<>(addressService.getPermAddress(userId), HttpStatus.OK);
-                }
             }
         }
         return new ResponseEntity<>(message , httpStatus);
