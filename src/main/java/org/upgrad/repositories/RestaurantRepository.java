@@ -11,7 +11,7 @@ import org.upgrad.models.Restaurant;
 public interface RestaurantRepository extends CrudRepository<Restaurant, Integer> {
 
     // Retrieves all restaurants in alphabetical order
-    @Query(nativeQuery = true,value="SELECT * FROM RESTAURANT ORDER BY RESTAURANT_NAME ASC")
+    @Query(nativeQuery = true,value="SELECT * FROM RESTAURANT ORDER BY USER_RATING")
     Iterable<Restaurant> findAllSorted();
 
     // Retrieves restaurant based on input restaurant match
