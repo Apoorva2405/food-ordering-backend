@@ -245,7 +245,7 @@ public class AddressController {
      */
     @GetMapping("/states")
     @CrossOrigin
-    public ResponseEntity<?> getAllPermanentAddress() {
+    public ResponseEntity<?> getAllStates() {
         return new ResponseEntity<>( addressService.getAllStates() , HttpStatus.OK);
     }
 
