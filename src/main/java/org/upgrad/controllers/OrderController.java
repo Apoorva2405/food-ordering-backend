@@ -101,8 +101,8 @@ public class OrderController {
             return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         } // Below condition executed when temp address details provided , though fields are optional,
         // condition made for all fields are required without all fields no meaning of address
-        else if (String.valueOf(flatBuilNo) !=null && String.valueOf(locality) != null && String.valueOf(city) != null &&
-                String.valueOf(zipcode) !=null && stateId != null) {
+        else if (String.valueOf(flatBuilNo) != null && locality != null && city != null &&
+                String.valueOf(zipcode) != null && stateId != null) {
 
             Integer userId = userAuthTokenService.getUserId(accessToken);
 
